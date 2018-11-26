@@ -1,6 +1,6 @@
 'use strict';
 var placingOnMap = function () {
-
+  var mapPin = document.querySelector('.map__pin');
   // колличество объявлений
   var ADS_NUMBERS = 8;
 
@@ -109,6 +109,7 @@ var placingOnMap = function () {
       var announcement = {};
       announcement.autor = {};
       announcement.offer = {};
+      announcement.location = {};
       announcement.autor.avatar = getRandomValue(avatars);
       announcement.offer.title = getRandomValue(offersTitels);
       announcement.offer.address = getRandomNumber(5, 150) + ', ' + getRandomNumber(130, 630);
@@ -120,7 +121,8 @@ var placingOnMap = function () {
       announcement.offer.checkout = offersCheckouts[getRandomIndex(offersCheckouts)];
       announcement.offer.features = offersFeatures.slice(0, getRandomIndex(offersFeatures));
       announcement.offer.photos = addPhotos(offersPhotos);
-      announcement.location = getRandomNumber(5, 150) + ', ' + getRandomNumber(130, 630);
+      announcement.location.x = getRandomNumber(150, 850);
+      announcement.location.y = getRandomNumber(130, 630);
       return announcement;
     };
     for (var k = 0; k < offersNumber; k++) {
@@ -129,15 +131,31 @@ var placingOnMap = function () {
     }
     console.log(allOffers);
     return allOffers;
-
   };
+  var allOffers = generateAllOffers();
+
+  var renderPin = function (announcement) {
+    var onePin = mapPin.cloneNode(true);
+    onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
+    onePin.querySelector('img').src = announcement.autor.avatar;
+    onePin.querySelector('img').alt = announcement.offer.title;
+    return (onePin);
+  };
+
+  var fragment = document.createDocumentFragment();
+  for(var j=0; j<ADS_NUMBERS; j++) {
+    fragment.appendChild(renderPin(allOffers[j]));
+  }
+
+  var mapPins = document.querySelector('.map__pins');
+  mapPins.appendChild(fragment);
 
   var makeMapActive = function () {
     var map = document.querySelector('.map');
     map.classList.remove('map--faded');
   };
   makeMapActive();
-  generateAllOffers();
+  renderPin(allOffers[3]);
 };
 placingOnMap();
 
