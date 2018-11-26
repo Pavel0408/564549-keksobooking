@@ -1,45 +1,61 @@
 'use strict';
+// колличество объявлений
+var ADS_NUMBERS = 8;
+
 var placingOnMap = function () {
+  var allOffers;
+
+  //  образец метки на карте
   var mapPin = document.querySelector('.map__pin');
+
+  // образец карточки объявления
   var card = document.querySelector('#card').content
     .querySelector('.map__card');
-  // колличество объявлений
-  var ADS_NUMBERS = 8;
 
   //  заголовки объявлений
-  var titles = ['Большая уютная квартира',
-    'Маленькая неуютная квартира',
-    'Огромный прекрасный дворец',
-    'Маленький ужасный дворец',
-    'Красивый гостевой домик',
-    'Некрасивый негостеприимный домик',
-    'Уютное бунгало далеко от моря',
-    'Неуютное бунгало по колено в воде'];
+  var titles =
+    ['Большая уютная квартира',
+      'Маленькая неуютная квартира',
+      'Огромный прекрасный дворец',
+      'Маленький ужасный дворец',
+      'Красивый гостевой домик',
+      'Некрасивый негостеприимный домик',
+      'Уютное бунгало далеко от моря',
+      'Неуютное бунгало по колено в воде'];
 
   // тип жилья
-  var types = ['palace',
-    'flat',
-    'house',
-    'bungalo'];
+  var types =
+    ['palace',
+      'flat',
+      'house',
+      'bungalo'];
 
   // заезды
-  var checkins = ['12:00', '13:00', '14:00'];
+  var checkins =
+    ['12:00',
+      '13:00',
+      '14:00'];
 
   // выезды
-  var checkouts = ['12:00', '13:00', '14:00'];
+  var checkouts =
+    ['12:00',
+      '13:00',
+      '14:00'];
 
   //  преимущества
-  var features = ['wifi',
-    'dishwasher',
-    'parking',
-    'washer',
-    'elevato',
-    'conditioner'];
+  var features =
+    ['wifi',
+      'dishwasher',
+      'parking',
+      'washer',
+      'elevato',
+      'conditioner'];
 
   //  фотографии
-  var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  var photos =
+    ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+      'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+      'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
   // генерация случайного числа из даипазона
   var getRandomNumber = function (min, max) {
@@ -61,6 +77,7 @@ var placingOnMap = function () {
     return val;
   };
 
+  // функция для создания массива объявлений
   var generateAllOffers = function () {
     var offersNumber = ADS_NUMBERS;
     var offersTitels = titles.slice();
@@ -69,9 +86,19 @@ var placingOnMap = function () {
     var offersCheckouts = checkouts.slice();
     var offersFeatures = features.slice();
     var offersPhotos = photos.slice();
-    var allOffers = [];
+    var Offers = [];
+    var maxPrice = 1000000;
+    var minPrice = 1000;
+    var minGuests = 1;
+    var maxGuests = 50;
+    var minRooms = 1;
+    var maxRooms = 5;
+    var locationXmin = 250;
+    var locationXmax = 850;
+    var locationYmin = 130;
+    var locationYmax = 630;
 
-    //  создание массива адресов аватарок
+    //  создаём массив адресов аватарок
     var avatarsGenerate = function (numberAds) {
       var avatars = [];
       for (var i = 1; i <= numberAds; i++) {
@@ -107,6 +134,8 @@ var placingOnMap = function () {
       return (photosInOffer);
     };
 
+
+    //  создаём один объект с объявлением
     var generateAnnouncement = function () {
       var announcement = {};
       announcement.autor = {};
@@ -114,30 +143,33 @@ var placingOnMap = function () {
       announcement.location = {};
       announcement.autor.avatar = getRandomValue(avatars);
       announcement.offer.title = getRandomValue(offersTitels);
-      announcement.offer.address = getRandomNumber(5, 150) + ', ' + getRandomNumber(130, 630);
-      announcement.offer.price = getRandomNumber(1000, 1000000);
+      announcement.offer.address = getRandomNumber(locationXmin, locationXmax) + ', ' + getRandomNumber(locationYmin, locationYmax);
+      announcement.offer.price = getRandomNumber(minPrice, maxPrice);
       announcement.offer.type = getTypeOffer(announcement.offer.title);
-      announcement.offer.rooms = getRandomNumber(1, 5);
-      announcement.offer.guests = getRandomNumber(1, 100);
+      announcement.offer.rooms = getRandomNumber(minRooms, maxRooms);
+      announcement.offer.guests = getRandomNumber(minGuests, maxGuests);
       announcement.offer.checkin = offersCheckins[getRandomIndex(offersCheckins)];
       announcement.offer.checkout = offersCheckouts[getRandomIndex(offersCheckouts)];
       announcement.offer.features = offersFeatures.slice(0, getRandomNumber(1, offersFeatures.length));
       announcement.offer.description = '';
       announcement.offer.photos = addPhotos(offersPhotos);
-      announcement.location.x = getRandomNumber(250, 850);
-      announcement.location.y = getRandomNumber(130, 630);
+      announcement.location.x = getRandomNumber(locationXmin, locationXmax);
+      announcement.location.y = getRandomNumber(locationYmin, locationYmax);
       return announcement;
     };
+
+    // создаём нужное колличество объявлений
     for (var k = 0; k < offersNumber; k++) {
       var announcement = generateAnnouncement();
-      allOffers.push(announcement);
+      Offers.push(announcement);
     }
-    console.log(allOffers);
-    return allOffers;
+    return Offers;
   };
 
-  var allOffers = generateAllOffers();
+  // запускаем функцию создающую массив объявлений
+  allOffers = generateAllOffers();
 
+  // функция для создания одного пина
   var renderPin = function (announcement) {
     var onePin = mapPin.cloneNode(true);
     onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
@@ -146,6 +178,7 @@ var placingOnMap = function () {
     return (onePin);
   };
 
+  // функция для отрисовки всех пинов
   var drawPinsOnMap = function () {
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < ADS_NUMBERS; j++) {
@@ -156,12 +189,16 @@ var placingOnMap = function () {
     mapPins.appendChild(fragment);
   };
 
+  // функция для перевода карты в активное состояние
   var makeMapActive = function () {
     var map = document.querySelector('.map');
     map.classList.remove('map--faded');
   };
 
+  // функция для отрисовки карточки объявления
   var renderCard = function (announcement) {
+
+    //  функция для определения типа жилья
     var renderType = function (obj) {
       if (obj.offer.type === 'palace') {
         return 'Дворец';
@@ -175,6 +212,7 @@ var placingOnMap = function () {
       return 'Бунгало';
     };
 
+    // функция для отрисовки преимуществ в карточке объявления
     var featuresGenerate = function (arr, mapCard) {
       var ul = mapCard.querySelector('ul');
       if (arr.offer.features.indexOf('wifi') === -1) {
@@ -197,12 +235,14 @@ var placingOnMap = function () {
       }
     };
 
+
+    //  фунция для отрисовки фотографий жилья в карточке объявления
     var renderPhoto = function (arr) {
+      var arrLength;
       var photoBlock = mapCard.querySelector('.popup__photos');
       var photo = mapCard.querySelector('.popup__photo');
       photoBlock.removeChild(photo);
-      var arrLength = arr.offer.photos.length;
-      console.log(arrLength);
+      arrLength = arr.offer.photos.length;
       for (var i = 0; i < arrLength; i++) {
         var tempPhoto = photo.cloneNode(true);
         tempPhoto.src = arr.offer.photos[i];
@@ -210,6 +250,7 @@ var placingOnMap = function () {
       }
     };
 
+    // создаём карточку объявления
     var mapCard = card.cloneNode(true);
     mapCard.querySelector('.popup__title').textContent = announcement.offer.title;
     mapCard.querySelector('.popup__text--address').textContent = announcement.offer.address;
@@ -222,10 +263,10 @@ var placingOnMap = function () {
     renderPhoto(announcement);
     mapCard.querySelector('.popup__avatar').src = announcement.autor.avatar;
 
-    console.log(mapCard);
     return mapCard;
   };
 
+  // фунция для добавления карточки объявления на страницу
   var cardDraw = function () {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(renderCard(allOffers[3]));
@@ -236,7 +277,6 @@ var placingOnMap = function () {
   drawPinsOnMap();
   cardDraw(allOffers[0]);
   makeMapActive();
-  renderPin(allOffers[3]);
 };
 placingOnMap();
 
