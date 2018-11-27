@@ -2,6 +2,57 @@
 // колличество объявлений
 var ADS_NUMBERS = 8;
 
+//  заголовки объявлений
+var titles = [
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
+  'Неуютное бунгало по колено в воде'
+];
+
+// тип жилья
+var types = [
+  'palace',
+  'flat',
+  'house',
+  'bungalo'
+];
+
+// заезды
+var checkins = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+// выезды
+var checkouts = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+//  преимущества
+var features = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevato',
+  'conditioner'
+];
+
+//  фотографии
+var photos = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+];
+
 var placingOnMap = function () {
   var allOffers;
 
@@ -11,51 +62,6 @@ var placingOnMap = function () {
   // образец карточки объявления
   var card = document.querySelector('#card').content
     .querySelector('.map__card');
-
-  //  заголовки объявлений
-  var titles =
-    ['Большая уютная квартира',
-      'Маленькая неуютная квартира',
-      'Огромный прекрасный дворец',
-      'Маленький ужасный дворец',
-      'Красивый гостевой домик',
-      'Некрасивый негостеприимный домик',
-      'Уютное бунгало далеко от моря',
-      'Неуютное бунгало по колено в воде'];
-
-  // тип жилья
-  var types =
-    ['palace',
-      'flat',
-      'house',
-      'bungalo'];
-
-  // заезды
-  var checkins =
-    ['12:00',
-      '13:00',
-      '14:00'];
-
-  // выезды
-  var checkouts =
-    ['12:00',
-      '13:00',
-      '14:00'];
-
-  //  преимущества
-  var features =
-    ['wifi',
-      'dishwasher',
-      'parking',
-      'washer',
-      'elevato',
-      'conditioner'];
-
-  //  фотографии
-  var photos =
-    ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-      'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-      'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
   // генерация случайного числа из даипазона
   var getRandomNumber = function (min, max) {
