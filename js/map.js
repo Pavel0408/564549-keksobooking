@@ -149,18 +149,21 @@ var placingOnMap = function () {
       announcement.location = {};
       announcement.autor.avatar = getRandomValue(avatars);
       announcement.offer.title = getRandomValue(offersTitels);
-      announcement.offer.address = getRandomNumber(locationXmin, locationXmax) + ', ' + getRandomNumber(locationYmin, locationYmax);
-      announcement.offer.price = getRandomNumber(minPrice, maxPrice);
-      announcement.offer.type = getTypeOffer(announcement.offer.title);
-      announcement.offer.rooms = getRandomNumber(minRooms, maxRooms);
-      announcement.offer.guests = getRandomNumber(minGuests, maxGuests);
-      announcement.offer.checkin = offersCheckins[getRandomIndex(offersCheckins)];
-      announcement.offer.checkout = offersCheckouts[getRandomIndex(offersCheckouts)];
-      announcement.offer.features = offersFeatures.slice(0, getRandomNumber(1, offersFeatures.length));
-      announcement.offer.description = '';
-      announcement.offer.photos = addPhotos(offersPhotos);
       announcement.location.x = getRandomNumber(locationXmin, locationXmax);
       announcement.location.y = getRandomNumber(locationYmin, locationYmax);
+      announcement.offer = {
+        address: announcement.location.x + ', ' + announcement.location.y,
+        price: getRandomNumber(minPrice, maxPrice),
+        type: getTypeOffer(announcement.offer.title),
+        rooms: getRandomNumber(minRooms, maxRooms),
+        guests: getRandomNumber(minGuests, maxGuests),
+        checkin: offersCheckins[getRandomIndex(offersCheckins)],
+        checkout: offersCheckouts[getRandomIndex(offersCheckouts)],
+        features: offersFeatures.slice(0, getRandomNumber(1, offersFeatures.length)),
+        description: '',
+        photos: addPhotos(offersPhotos),
+      };
+
       return announcement;
     };
 
