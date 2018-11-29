@@ -151,12 +151,12 @@ var placingOnMap = function () {
         x: getRandomNumber(locationXmin, locationXmax),
         y: getRandomNumber(locationYmin, locationYmax)
       };
-
+      var title = getRandomValue(offersTitels);
       announcement.offer = {
-        title: getRandomValue(offersTitels),
+        title: title,
         address: announcement.location.x + ', ' + announcement.location.y,
         price: getRandomNumber(minPrice, maxPrice),
-        type: getTypeOffer(announcement.offer.title),
+        type: getTypeOffer(title),
         rooms: getRandomNumber(minRooms, maxRooms),
         guests: getRandomNumber(minGuests, maxGuests),
         checkin: offersCheckins[getRandomIndex(offersCheckins)],
@@ -211,6 +211,14 @@ var placingOnMap = function () {
 
     //  функция для определения типа жилья
     var renderType = function (obj) {
+      var types = {
+        palace: 'Дворец',
+        flat: 'Квартира',
+        house: 'Дом',
+        bungalo: 'Бунгало'
+      };
+      return types[obj.offer.type];
+
       if (obj.offer.type === 'palace') {
         return 'Дворец';
       }
@@ -286,7 +294,7 @@ var placingOnMap = function () {
   };
 
   drawPinsOnMap();
-  cardDraw(allOffers[0]);
+  cardDraw();
   makeMapActive();
 };
 placingOnMap();
