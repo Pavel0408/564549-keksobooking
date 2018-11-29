@@ -85,14 +85,13 @@ var placingOnMap = function () {
 
   // функция для создания массива объявлений
   var generateAllOffers = function () {
-    var offersNumber = ADS_NUMBERS;
     var offersTitels = titles.slice();
     var offersTypes = types.slice();
     var offersCheckins = checkins.slice();
     var offersCheckouts = checkouts.slice();
     var offersFeatures = features.slice();
     var offersPhotos = photos.slice();
-    var Offers = [];
+    var offers = [];
     var maxPrice = 1000000;
     var minPrice = 1000;
     var minGuests = 1;
@@ -140,18 +139,21 @@ var placingOnMap = function () {
       return (photosInOffer);
     };
 
-
     //  создаём один объект с объявлением
     var generateAnnouncement = function () {
       var announcement = {};
-      announcement.autor = {};
-      announcement.offer = {};
-      announcement.location = {};
-      announcement.autor.avatar = getRandomValue(avatars);
-      announcement.offer.title = getRandomValue(offersTitels);
-      announcement.location.x = getRandomNumber(locationXmin, locationXmax);
-      announcement.location.y = getRandomNumber(locationYmin, locationYmax);
+
+      announcement.autor = {
+        avatar: getRandomValue(avatars)
+      };
+
+      announcement.location = {
+        x: getRandomNumber(locationXmin, locationXmax),
+        y: getRandomNumber(locationYmin, locationYmax)
+      };
+
       announcement.offer = {
+        title: getRandomValue(offersTitels),
         address: announcement.location.x + ', ' + announcement.location.y,
         price: getRandomNumber(minPrice, maxPrice),
         type: getTypeOffer(announcement.offer.title),
@@ -168,11 +170,11 @@ var placingOnMap = function () {
     };
 
     // создаём нужное колличество объявлений
-    for (var k = 0; k < offersNumber; k++) {
+    for (var k = 0; k < ADS_NUMBERS; k++) {
       var announcement = generateAnnouncement();
-      Offers.push(announcement);
+      offers.push(announcement);
     }
-    return Offers;
+    return offers;
   };
 
   // запускаем функцию создающую массив объявлений
