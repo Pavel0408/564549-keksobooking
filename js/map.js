@@ -141,6 +141,7 @@ var placingOnMap = function () {
 
     //  создаём один объект с объявлением
     var generateAnnouncement = function () {
+      var title = getRandomValue(offersTitels);
       var announcement = {};
 
       announcement.autor = {
@@ -151,7 +152,7 @@ var placingOnMap = function () {
         x: getRandomNumber(locationXmin, locationXmax),
         y: getRandomNumber(locationYmin, locationYmax)
       };
-      var title = getRandomValue(offersTitels);
+
       announcement.offer = {
         title: title,
         address: announcement.location.x + ', ' + announcement.location.y,
@@ -211,49 +212,26 @@ var placingOnMap = function () {
 
     //  функция для определения типа жилья
     var renderType = function (obj) {
-      var types = {
+      var allTypes = {
         palace: 'Дворец',
         flat: 'Квартира',
         house: 'Дом',
         bungalo: 'Бунгало'
       };
-      return types[obj.offer.type];
-
-      if (obj.offer.type === 'palace') {
-        return 'Дворец';
-      }
-      if (obj.offer.type === 'flat') {
-        return 'Квартира';
-      }
-      if (obj.offer.type === 'house') {
-        return 'Дом';
-      }
-      return 'Бунгало';
+      return allTypes[obj.offer.type];
     };
 
     // функция для отрисовки преимуществ в карточке объявления
     var featuresGenerate = function (arr, mapCard) {
+      var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
-      if (arr.offer.features.indexOf('wifi') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--wifi'));
-      }
-      if (arr.offer.features.indexOf('dishwasher') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--dishwasher'));
-      }
-      if (arr.offer.features.indexOf('parking') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--parking'));
-      }
-      if (arr.offer.features.indexOf('washer') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--washer'));
-      }
-      if (arr.offer.features.indexOf('elevato') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--elevator'));
-      }
-      if (arr.offer.features.indexOf('conditioner') === -1) {
-        ul.removeChild(ul.querySelector('.popup__feature--conditioner'));
+      var featuresLength = features.length;
+      for (var i = 0; i < featuresLength; i++) {
+        if (arr.offer.features.indexOf(features[i]) === -1) {
+          ul.removeChild(featuresClasses[i]);
+        }
       }
     };
-
 
     //  фунция для отрисовки фотографий жилья в карточке объявления
     var renderPhoto = function (arr) {
