@@ -2,6 +2,17 @@
 // колличество объявлений
 var ADS_NUMBERS = 8;
 
+//  образец метки на карте
+var MAP_PIN = document.querySelector('.map__pin');
+var MAP_PINS = document.querySelector('.map__pins');
+var MAP = document.querySelector('.map');
+
+// образец карточки объявления
+var card = document.querySelector('#card').content
+  .querySelector('.map__card');
+
+var mapCard = card.cloneNode(true);
+
 //  заголовки объявлений
 var titles = [
   'Большая уютная квартира',
@@ -55,13 +66,6 @@ var photos = [
 
 var placingOnMap = function () {
   var allOffers;
-
-  //  образец метки на карте
-  var mapPin = document.querySelector('.map__pin');
-
-  // образец карточки объявления
-  var card = document.querySelector('#card').content
-    .querySelector('.map__card');
 
   // генерация случайного числа из даипазона
   var getRandomNumber = function (min, max) {
@@ -136,6 +140,7 @@ var placingOnMap = function () {
         var photo = getRandomValue(photosAll);
         photosInOffer.push(photo);
       }
+
       return (photosInOffer);
     };
 
@@ -183,10 +188,11 @@ var placingOnMap = function () {
 
   // функция для создания одного пина
   var renderPin = function (announcement) {
-    var onePin = mapPin.cloneNode(true);
+    var onePin = MAP_PIN.cloneNode(true);
     onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
     onePin.querySelector('img').src = announcement.autor.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
+
     return (onePin);
   };
 
@@ -197,14 +203,12 @@ var placingOnMap = function () {
       fragment.appendChild(renderPin(allOffers[j]));
     }
 
-    var mapPins = document.querySelector('.map__pins');
-    mapPins.appendChild(fragment);
+    MAP_PINS.appendChild(fragment);
   };
 
   // функция для перевода карты в активное состояние
   var makeMapActive = function () {
-    var map = document.querySelector('.map');
-    map.classList.remove('map--faded');
+    MAP.classList.remove('map--faded');
   };
 
   // функция для отрисовки карточки объявления
@@ -218,14 +222,16 @@ var placingOnMap = function () {
         house: 'Дом',
         bungalo: 'Бунгало'
       };
+
       return allTypes[obj.offer.type];
     };
 
     // функция для отрисовки преимуществ в карточке объявления
-    var featuresGenerate = function (arr, mapCard) {
+    var featuresGenerate = function (arr) {
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
       var featuresLength = features.length;
+
       for (var i = 0; i < featuresLength; i++) {
         if (arr.offer.features.indexOf(features[i]) === -1) {
           ul.removeChild(featuresClasses[i]);
@@ -238,6 +244,7 @@ var placingOnMap = function () {
       var arrLength;
       var photoBlock = mapCard.querySelector('.popup__photos');
       var photo = mapCard.querySelector('.popup__photo');
+
       photoBlock.removeChild(photo);
       arrLength = arr.offer.photos.length;
       for (var i = 0; i < arrLength; i++) {
@@ -248,14 +255,13 @@ var placingOnMap = function () {
     };
 
     // создаём карточку объявления
-    var mapCard = card.cloneNode(true);
     mapCard.querySelector('.popup__title').textContent = announcement.offer.title;
     mapCard.querySelector('.popup__text--address').textContent = announcement.offer.address;
     mapCard.querySelector('.popup__text--price').textContent = announcement.offer.price + '₽/ночь';
     mapCard.querySelector('.popup__type').textContent = renderType(announcement);
     mapCard.querySelector('.popup__text--capacity').textContent = announcement.offer.rooms + ' комнаты для ' + announcement.offer.guests + ' гостей';
     mapCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + announcement.offer.checkin + ', выезд до ' + announcement.offer.checkout;
-    featuresGenerate(announcement, mapCard);
+    featuresGenerate(announcement);
     mapCard.querySelector('.popup__description').textContent = announcement.offer.description;
     renderPhoto(announcement);
     mapCard.querySelector('.popup__avatar').src = announcement.autor.avatar;
@@ -266,8 +272,9 @@ var placingOnMap = function () {
   // фунция для добавления карточки объявления на страницу
   var cardDraw = function () {
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(renderCard(allOffers[3]));
     var map = document.querySelector('.map');
+
+    fragment.appendChild(renderCard(allOffers[3]));
     map.insertBefore(fragment, map.querySelector('.map__filters-container'));
   };
 
