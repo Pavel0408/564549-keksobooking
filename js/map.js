@@ -6,6 +6,8 @@ var ADS_NUMBERS = 8;
 var MAP_PIN = document.querySelector('.map__pin');
 var MAP_PINS = document.querySelector('.map__pins');
 var MAP = document.querySelector('.map');
+var FORM = document.querySelector('.ad-form');
+var MAP_PIN_MAIN = document.querySelector('.map__pin--main')
 
 // образец карточки объявления
 var card = document.querySelector('#card').content
@@ -209,6 +211,7 @@ var placingOnMap = function () {
   // функция для перевода карты в активное состояние
   var makeMapActive = function () {
     MAP.classList.remove('map--faded');
+    FORM.classList.remove('ad-form--disabled');
   };
 
   // функция для отрисовки карточки объявления
@@ -281,6 +284,9 @@ var placingOnMap = function () {
   drawPinsOnMap();
   cardDraw();
   makeMapActive();
+
 };
-placingOnMap();
+MAP_PIN_MAIN.addEventListener('mouseup', function () {
+  placingOnMap();
+});
 
