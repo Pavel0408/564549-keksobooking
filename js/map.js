@@ -8,12 +8,13 @@ var MAP_PINS = document.querySelector('.map__pins');
 var MAP = document.querySelector('.map');
 var FORM = document.querySelector('.ad-form');
 var MAP_PIN_MAIN = document.querySelector('.map__pin--main')
-
+var FIELDSETS = document.querySelectorAll('fieldset');
 // образец карточки объявления
 var card = document.querySelector('#card').content
   .querySelector('.map__card');
 
 var mapCard = card.cloneNode(true);
+
 
 //  заголовки объявлений
 var titles = [
@@ -279,14 +280,33 @@ var placingOnMap = function () {
 
     fragment.appendChild(renderCard(allOffers[3]));
     map.insertBefore(fragment, map.querySelector('.map__filters-container'));
+
+
+  };
+
+
+  // функция для перевода формы в активное стостояние
+  var makeFormActive = function () {
+    for (var i = 0; i < FIELDSETS.length; i++) {
+      FIELDSETS[i].removeAttribute('disabled');
+    }
   };
 
   drawPinsOnMap();
   cardDraw();
   makeMapActive();
+  makeFormActive();
 
+  MAP_PIN_MAIN.removeEventListener('mouseup', placingOnMap);
 };
-MAP_PIN_MAIN.addEventListener('mouseup', function () {
-  placingOnMap();
-});
+
+// функция для перевода формы в неактивное состояние
+var makeFormDasabled = function () {
+  for (var i = 0; i < FIELDSETS.length; i++) {
+    FIELDSETS[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+makeFormDasabled();
+MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
 
