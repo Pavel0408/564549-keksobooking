@@ -190,12 +190,12 @@ var placingOnMap = function () {
   allOffers = generateAllOffers();
 
   // функция для создания одного пина
-  var renderPin = function (announcement) {
+  var renderPin = function (announcement, num) {
     var onePin = MAP_PIN.cloneNode(true);
     onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
     onePin.querySelector('img').src = announcement.autor.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
-
+    onePin.setAttribute('data-action', num);
     return (onePin);
   };
 
@@ -203,7 +203,7 @@ var placingOnMap = function () {
   var drawPinsOnMap = function () {
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < ADS_NUMBERS; j++) {
-      fragment.appendChild(renderPin(allOffers[j]));
+      fragment.appendChild(renderPin(allOffers[j], j));
     }
 
     MAP_PINS.appendChild(fragment);
@@ -235,9 +235,8 @@ var placingOnMap = function () {
     var featuresGenerate = function (arr) {
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
-      var featuresLength = features.length;
 
-      for (var i = 0; i < featuresLength; i++) {
+      for (var i = 0, featuresLength = features.length; i < featuresLength; i++) {
         if (arr.offer.features.indexOf(features[i]) === -1) {
           ul.removeChild(featuresClasses[i]);
         }
@@ -246,13 +245,10 @@ var placingOnMap = function () {
 
     //  фунция для отрисовки фотографий жилья в карточке объявления
     var renderPhoto = function (arr) {
-      var arrLength;
       var photoBlock = mapCard.querySelector('.popup__photos');
       var photo = mapCard.querySelector('.popup__photo');
-
       photoBlock.removeChild(photo);
-      arrLength = arr.offer.photos.length;
-      for (var i = 0; i < arrLength; i++) {
+      for (var i = 0, arrLength = arr.offer.photos.length; i < arrLength; i++) {
         var tempPhoto = photo.cloneNode(true);
         tempPhoto.src = arr.offer.photos[i];
         photoBlock.appendChild(tempPhoto);
@@ -278,17 +274,17 @@ var placingOnMap = function () {
   var cardDraw = function (num) {
     var fragment = document.createDocumentFragment();
     var map = document.querySelector('.map');
-    var closePopapButton;
+    var closeCardButton;
 
     fragment.appendChild(renderCard(allOffers[num]));
     map.insertBefore(fragment, map.querySelector('.map__filters-container'));
-    closePopapButton = document.querySelector('.popup__close');
-    closePopapButton.addEventListener('click', closePopap);
+    closeCardButton = document.querySelector('.popup__close');
+    closeCardButton.addEventListener('click', closeCard);
   };
 
   // функция для перевода формы в активное стостояние
   var makeFormActive = function () {
-    for (var i = 0; i < FIELDSETS.length; i++) {
+    for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
       FIELDSETS[i].removeAttribute('disabled');
     }
 
@@ -301,7 +297,7 @@ var placingOnMap = function () {
     getAdress();
   };
 
-  var closePopap = function () {
+  var closeCard = function () {
     if (MAP.querySelector('.map__card') !== null) {
       MAP.removeChild(MAP.querySelector('.map__card'));
     }
@@ -309,24 +305,22 @@ var placingOnMap = function () {
 
   // функция для отрисовки карточки при клике по пину
   var newCardDraw = function (num) {
-    closePopap();
+    closeCard();
     cardDraw(num);
   };
 
-  // функци добавляющая обработчик клика на один пин
-  var addOnePinListener = function (num, arr) {
-    arr[num].addEventListener('click', function () {
-      newCardDraw(num - 1);
-    });
-
-  };
-
   // функция добавляющая обработчик клика на все пины
-  var pinsListeners = function () {
-    var ALL_PINS = document.querySelectorAll('.map__pin--main');
-    var allPinsLength = ALL_PINS.length;
-    for (var i = 1; i < allPinsLength; i++) {
-      addOnePinListener(i, ALL_PINS);
+  var pinsListeners = function (evt) {
+    var target = evt.target;
+    var num;
+    while ((target.tagName === 'IMG') || (target.tagName === 'BUTTON')) {
+      if (target.tagName === 'BUTTON') {
+        num = target.getAttribute('data-action');
+      }
+      target = target.parentNode;
+    }
+    if (num) {
+      newCardDraw(num);
     }
   };
 
@@ -336,13 +330,16 @@ var placingOnMap = function () {
 
 
   MAP_PIN_MAIN.removeEventListener('mouseup', placingOnMap);
-  pinsListeners();
+
+  // добавляем обработчик клика на все пины
+  MAP.addEventListener('click', pinsListeners);
+
 };
 
 
 // функция для перевода формы в неактивное состояние
 var makeFormDasabled = function () {
-  for (var i = 0; i < FIELDSETS.length; i++) {
+  for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
     FIELDSETS[i].setAttribute('disabled', 'disabled');
   }
 };
