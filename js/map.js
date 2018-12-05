@@ -181,6 +181,7 @@ var placingOnMap = function () {
     // создаём нужное колличество объявлений
     for (var k = 0; k < ADS_NUMBERS; k++) {
       var announcement = generateAnnouncement();
+      announcement.id = k;
       offers.push(announcement);
     }
     return offers;
@@ -190,12 +191,12 @@ var placingOnMap = function () {
   allOffers = generateAllOffers();
 
   // функция для создания одного пина
-  var renderPin = function (announcement, num) {
+  var renderPin = function (announcement) {
     var onePin = MAP_PIN.cloneNode(true);
     onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
     onePin.querySelector('img').src = announcement.autor.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
-    onePin.setAttribute('data-action', num);
+    onePin.dataset.id = announcement.id;
     return (onePin);
   };
 
@@ -203,7 +204,7 @@ var placingOnMap = function () {
   var drawPinsOnMap = function () {
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < ADS_NUMBERS; j++) {
-      fragment.appendChild(renderPin(allOffers[j], j));
+      fragment.appendChild(renderPin(allOffers[j]));
     }
 
     MAP_PINS.appendChild(fragment);
@@ -311,14 +312,11 @@ var placingOnMap = function () {
 
   // функция добавляющая обработчик клика на все пины
   var pinsListeners = function (evt) {
-    var target = evt.target;
-    var num;
-    while ((target.tagName === 'IMG') || (target.tagName === 'BUTTON')) {
-      if (target.tagName === 'BUTTON') {
-        num = target.getAttribute('data-action');
-      }
-      target = target.parentNode;
+    var target = evt.target.closest('.map__pin');
+    if (target) {
+      var num = target.dataset.id;
     }
+
     if (num) {
       newCardDraw(num);
     }
