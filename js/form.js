@@ -5,18 +5,8 @@
   var TIMOUT = document.querySelector('#timeout');
   var ROOM_NUMBER = document.querySelector('#room_number');
   var CAPACITY = document.querySelector('#capacity');
-  var ROOM_NUMBER_OPTIONS = ROOM_NUMBER.querySelectorAll('option');
   var CAPACITY_OPTIONS = CAPACITY.querySelectorAll('option');
   var HOUSING_TYPE = document.querySelector('#type');
-  var roomNumberValues = [];
-
-  // типы жилья
-  var TYPES = [
-    'palace',
-    'flat',
-    'house',
-    'bungalo'
-  ];
 
   // минимальная стоимость
   var MIN_PRICES = {
@@ -48,33 +38,24 @@
 
   // функция для установления соответсвия гостей и комнат
   var setMinGuests = function () {
-    for (var i = 0, capacityOptionsLength = CAPACITY_OPTIONS.length; i < capacityOptionsLength; i++) {
-      CAPACITY_OPTIONS[i].setAttribute('disabled', 'disabled');
+    for (var n = 0, capacityOptionsLength = CAPACITY_OPTIONS.length; n < capacityOptionsLength; n++) {
+      CAPACITY_OPTIONS[n].removeAttribute('disabled');
     }
 
-    for (var j = 0, roomNumberOptionsLength = ROOM_NUMBER_OPTIONS.length; j < roomNumberOptionsLength; j++) {
-      var optionValue = ROOM_NUMBER_OPTIONS[j].value;
-      roomNumberValues.push(optionValue);
-    }
+    var isDisabledGuestsOption = function (num) {
+      var rooms = +ROOM_NUMBER.value;
+      var guests = +CAPACITY_OPTIONS[num].value;
+      return (guests > rooms && guests !== 0) ||
+        (guests !== 0 && rooms === 100) ||
+        (guests === 0 && rooms !== 100);
+    };
 
-    if (ROOM_NUMBER.value === roomNumberValues[0]) {
-      CAPACITY_OPTIONS[2].removeAttribute('disabled');
-      CAPACITY.value = CAPACITY_OPTIONS[2].value;
-    }
-    if (ROOM_NUMBER.value === roomNumberValues[1]) {
-      CAPACITY_OPTIONS[2].removeAttribute('disabled');
-      CAPACITY_OPTIONS[1].removeAttribute('disabled');
-      CAPACITY.value = CAPACITY_OPTIONS[1].value;
-    }
-    if (ROOM_NUMBER.value === roomNumberValues[2]) {
-      CAPACITY_OPTIONS[2].removeAttribute('disabled');
-      CAPACITY_OPTIONS[1].removeAttribute('disabled');
-      CAPACITY_OPTIONS[0].removeAttribute('disabled');
-      CAPACITY.value = CAPACITY_OPTIONS[0].value;
-    }
-    if (ROOM_NUMBER.value === roomNumberValues[3]) {
-      CAPACITY_OPTIONS[3].removeAttribute('disabled');
-      CAPACITY.value = CAPACITY_OPTIONS[3].value;
+    for (var i = capacityOptionsLength - 1; i >= 0; i--) {
+      if (isDisabledGuestsOption(i)) {
+        CAPACITY_OPTIONS[i].setAttribute('disabled', 'disabled');
+      } else {
+        CAPACITY.value = CAPACITY_OPTIONS[i].value;
+      }
     }
   };
 
