@@ -35,12 +35,13 @@
 
 
   // функции для синхронизации времени заезда и выезда
-  var timeinSynchro = function () {
-
-    TIMOUT.value = TIMEIN.value;
-  };
-
-  var timeoutSinchro = function () {
+  var timeSynchro = function (evt) {
+    if (evt) {
+      if (evt.target.closest('#timein')) {
+        TIMOUT.value = TIMEIN.value;
+        return;
+      }
+    }
     TIMEIN.value = TIMOUT.value;
   };
 
@@ -80,8 +81,8 @@
 
   setMinPrice();
   setMinGuests();
-  TIMEIN.addEventListener('change', timeinSynchro);
-  TIMOUT.addEventListener('change', timeoutSinchro);
+  TIMEIN.addEventListener('change', timeSynchro);
+  TIMOUT.addEventListener('change', timeSynchro);
   HOUSING_TYPE.addEventListener('change', setMinPrice);
   ROOM_NUMBER.addEventListener('change', setMinGuests);
 })();
