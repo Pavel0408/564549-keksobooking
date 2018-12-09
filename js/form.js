@@ -30,6 +30,7 @@
   var setMinPrice = function () {
     var type = HOUSING_TYPE.value;
     PRICE.setAttribute('min', MIN_PRICES[TYPES.indexOf(type)]);
+    PRICE.setAttribute('placeholder', MIN_PRICES[TYPES.indexOf(type)]);
   };
 
 
