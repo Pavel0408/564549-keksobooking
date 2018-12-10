@@ -26,13 +26,7 @@
 
   // функции для синхронизации времени заезда и выезда
   var timeSynchro = function (evt) {
-    if (evt) {
-      if (evt.target.closest('#timein')) {
-        TIMOUT.value = TIMEIN.value;
-        return;
-      }
-    }
-    TIMEIN.value = TIMOUT.value;
+    TIMOUT.value = TIMEIN.value = evt.target.value;
   };
 
 
