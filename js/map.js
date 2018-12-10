@@ -3,7 +3,7 @@
 var ADS_NUMBERS = 8;
 
 //  образец метки на карте
-var MAP_PIN = document.querySelector('.map__pin');
+var MAP_PIN = document.querySelector('#pin').content.querySelector('.map__pin');
 var MAP_PINS = document.querySelector('.map__pins');
 var MAP = document.querySelector('.map');
 var FORM = document.querySelector('.ad-form');
