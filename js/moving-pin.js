@@ -4,6 +4,8 @@
   var ADRESS_INPUT = document.querySelector('#address');
   var MAP_PIN_WEIGHT = 60;
   var MAP_PIN_HEIGHT = 80;
+
+  // гриницы, в которых можно перемедать пин
   var X_COORDS = {
     min: 250,
     max: 1150
@@ -12,6 +14,8 @@
     min: 130,
     max: 630
   };
+
+  // функция для удержания пина внутри карты
   var isOnMap = function (num, obj) {
     if (num < obj.min) {
       return obj.min;
@@ -22,20 +26,20 @@
     return num;
   };
 
+  // фкнкция для определения адреса объявления
   var getAdress = function () {
     var left = +MAIN_PIN.offsetLeft + MAP_PIN_WEIGHT / 2;
     var top = +MAIN_PIN.offsetTop + MAP_PIN_HEIGHT;
     ADRESS_INPUT.value = '' + left + ', ' + top;
   };
 
-
+  //  перемещаем пин
   MAIN_PIN.addEventListener('mousedown', function (evt) {
-    console.log(evt);
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
-    console.log(startCoords);
+
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();

@@ -288,14 +288,6 @@ var placingOnMap = function () {
     for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
       FIELDSETS[i].removeAttribute('disabled');
     }
-
-    // определяем адрес начального объявления
-    var getAdress = function () {
-      var left = +MAP_PIN_MAIN.offsetLeft + MAP_PIN_WEIGHT / 2;
-      var top = +MAP_PIN_MAIN.offsetTop + MAP_PIN_HEIGHT;
-      ADRESS_INPUT.value = '' + left + ', ' + top;
-    };
-    getAdress();
   };
 
   var closeCard = function () {
@@ -342,5 +334,13 @@ var makeFormDasabled = function () {
   }
 };
 
+var getAdress = function () {
+  var left = +MAP_PIN_MAIN.offsetLeft + MAP_PIN_WEIGHT / 2;
+  var top = +MAP_PIN_MAIN.offsetTop + MAP_PIN_HEIGHT;
+  ADRESS_INPUT.value = '' + left + ', ' + top;
+};
+
+
 makeFormDasabled();
+MAP_PIN_MAIN.addEventListener('nouseup', getAdress);
 MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
