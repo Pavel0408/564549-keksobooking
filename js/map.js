@@ -8,8 +8,10 @@ var MAP_PINS = document.querySelector('.map__pins');
 var MAP = document.querySelector('.map');
 var FORM = document.querySelector('.ad-form');
 var MAP_PIN_MAIN = document.querySelector('.map__pin--main');
-var MAP_PIN_WEIGHT = 14;
-var MAP_PIN_HEIGHT = 14;
+var MAP_PIN_WEIGHT = 50;
+var MAP_PIN_HEIGHT = 70;
+var MAIN_PIN_HEIGHT;
+var MAIN_PIN_HEIGHT;
 var FIELDSETS = document.querySelectorAll('fieldset');
 var ADRESS_INPUT = document.querySelector('#address');
 var allOffers;
@@ -193,7 +195,12 @@ var placingOnMap = function () {
   // функция для создания одного пина
   var renderPin = function (announcement) {
     var onePin = MAP_PIN.cloneNode(true);
-    onePin.style = 'left: ' + announcement.location.x + 'px; top: ' + announcement.location.y + 'px;';
+    console.log(announcement.location.y);
+    var pinTop = +(announcement.location.y) - MAP_PIN_HEIGHT;
+    var pinLeft = +(announcement.location.x) - MAP_PIN_WEIGHT / 2;
+    console.log(pinTop);
+    onePin.style = 'left: ' + pinLeft + 'px; top: ' + pinTop + 'px;';
+
     onePin.querySelector('img').src = announcement.autor.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
     onePin.dataset.id = announcement.id;
