@@ -15,15 +15,21 @@
     max: 630
   };
 
-  // функция для удержания пина внутри карты
-  var isOnMap = function (num, obj) {
-    if (num < obj.min) {
-      return obj.min;
+  /**
+     * функция для удержания пина внутри карты
+     *
+     * @param {Number} coordsNum - значение после смещения
+     * @param {Number} coordsObj - гриницы в которых преремещается Pin
+     * @return {Number} - значение после смещения с учётом границ карты
+ */
+  var isOnMap = function (coordsNum, coordsObj) {
+    if (coordsNum < coordsObj.min) {
+      return coordsObj.min;
     }
-    if (num > obj.max) {
-      return obj.max;
+    if (coordsNum > coordsObj.max) {
+      return coordsObj.max;
     }
-    return num;
+    return coordsNum;
   };
 
   // фкнкция для определения адреса объявления
