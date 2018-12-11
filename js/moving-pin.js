@@ -2,8 +2,8 @@
 (function () {
   var MAIN_PIN = document.querySelector('.map__pin--main');
   var ADRESS_INPUT = document.querySelector('#address');
-  var MAP_PIN_WEIGHT = 14;
-  var MAP_PIN_HEIGHT = 14;
+  var MAP_PIN_WEIGHT = 64;
+  var MAP_PIN_HEIGHT = 84;
 
   // гриницы, в которых можно перемедать пин
   var X_COORDS = {
