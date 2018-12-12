@@ -8,19 +8,11 @@
   var CAPACITY_OPTIONS = CAPACITY.querySelectorAll('option');
   var HOUSING_TYPE = document.querySelector('#type');
 
-  // минимальная стоимость
-  var MIN_PRICES = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
-  };
-
   // функция для установления минимальной стоимости жилья
   var setMinPrice = function () {
     var type = HOUSING_TYPE.value;
-    PRICE.setAttribute('min', MIN_PRICES[type]);
-    PRICE.setAttribute('placeholder', MIN_PRICES[type]);
+    PRICE.setAttribute('min', document.constants.MIN_PRICES[type]);
+    PRICE.setAttribute('placeholder', document.constants.MIN_PRICES[type]);
   };
 
 

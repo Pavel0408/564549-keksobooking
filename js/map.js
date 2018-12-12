@@ -18,88 +18,15 @@ var allOffers;
 // образец карточки объявления
 var card = document.querySelector('#card').content
   .querySelector('.map__card');
-
-//  заголовки объявлений
-var titles = [
-  'Большая уютная квартира',
-  'Маленькая неуютная квартира',
-  'Огромный прекрасный дворец',
-  'Маленький ужасный дворец',
-  'Красивый гостевой домик',
-  'Некрасивый негостеприимный домик',
-  'Уютное бунгало далеко от моря',
-  'Неуютное бунгало по колено в воде'
-];
-
-// тип жилья
-var types = [
-  'palace',
-  'flat',
-  'house',
-  'bungalo'
-];
-
-// заезды
-var checkins = [
-  '12:00',
-  '13:00',
-  '14:00'
-];
-
-// выезды
-var checkouts = [
-  '12:00',
-  '13:00',
-  '14:00'
-];
-
-//  преимущества
-var features = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevato',
-  'conditioner'
-];
-
-//  фотографии
-var photos = [
-  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
-
 var placingOnMap = function () {
-
-  // генерация случайного числа из даипазона
-  var getRandomNumber = function (min, max) {
-    var rand = min + Math.random() * (max + 1 - min);
-    rand = Math.floor(rand);
-    return rand;
-  };
-
-  // случайный индекс массива
-  var getRandomIndex = function (arr) {
-    return getRandomNumber(0, arr.length - 1);
-  };
-
-  //  уникальное значение из массива
-  var getRandomValue = function (arr) {
-    var randInd = getRandomIndex(arr);
-    var val = arr[randInd];
-    arr.splice(randInd, 1);
-    return val;
-  };
-
   // функция для создания массива объявлений
   var generateAllOffers = function () {
-    var offersTitels = titles.slice();
-    var offersTypes = types.slice();
-    var offersCheckins = checkins.slice();
-    var offersCheckouts = checkouts.slice();
-    var offersFeatures = features.slice();
-    var offersPhotos = photos.slice();
+    var offersTitels = document.constants.TITLES.slice();
+    var offersTypes = document.constants.TYPES.slice();
+    var offersCheckins = document.constants.CHECKINS.slice();
+    var offersCheckouts = document.constants.CHECKOUTS.slice();
+    var offersFeatures = document.constants.FEATURES.slice();
+    var offersPhotos = document.constants.PHOTOS.slice();
     var offers = [];
     var maxPrice = 1000000;
     var minPrice = 1000;
@@ -142,7 +69,7 @@ var placingOnMap = function () {
       var photosAll = arr.slice();
       var photosInOffer = [];
       while (photosAll.length) {
-        var photo = getRandomValue(photosAll);
+        var photo = window.utilities.getRandomValue(photosAll);
         photosInOffer.push(photo);
       }
 
@@ -151,28 +78,28 @@ var placingOnMap = function () {
 
     //  создаём один объект с объявлением
     var generateAnnouncement = function () {
-      var title = getRandomValue(offersTitels);
+      var title = window.utilities.getRandomValue(offersTitels);
       var announcement = {};
 
       announcement.autor = {
-        avatar: getRandomValue(avatars)
+        avatar: window.utilities.getRandomValue(avatars)
       };
 
       announcement.location = {
-        x: getRandomNumber(locationXmin, locationXmax),
-        y: getRandomNumber(locationYmin, locationYmax)
+        x: window.utilities.getRandomNumber(locationXmin, locationXmax),
+        y: window.utilities.getRandomNumber(locationYmin, locationYmax)
       };
 
       announcement.offer = {
         title: title,
         address: announcement.location.x + ', ' + announcement.location.y,
-        price: getRandomNumber(minPrice, maxPrice),
+        price: window.utilities.getRandomNumber(minPrice, maxPrice),
         type: getTypeOffer(title),
-        rooms: getRandomNumber(minRooms, maxRooms),
-        guests: getRandomNumber(minGuests, maxGuests),
-        checkin: offersCheckins[getRandomIndex(offersCheckins)],
-        checkout: offersCheckouts[getRandomIndex(offersCheckouts)],
-        features: offersFeatures.slice(0, getRandomNumber(1, offersFeatures.length)),
+        rooms: window.utilities.getRandomNumber(minRooms, maxRooms),
+        guests: window.utilities.getRandomNumber(minGuests, maxGuests),
+        checkin: offersCheckins[window.utilities.getRandomIndex(offersCheckins)],
+        checkout: offersCheckouts[window.utilities.getRandomIndex(offersCheckouts)],
+        features: offersFeatures.slice(0, window.utilities.getRandomNumber(1, offersFeatures.length)),
         description: '',
         photos: addPhotos(offersPhotos),
       };
@@ -242,8 +169,8 @@ var placingOnMap = function () {
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
 
-      for (var i = 0, featuresLength = features.length; i < featuresLength; i++) {
-        if (arr.offer.features.indexOf(features[i]) === -1) {
+      for (var i = 0, featuresLength = document.constants.FEATURES.length; i < featuresLength; i++) {
+        if (arr.offer.features.indexOf(document.constants.FEATURES[i]) === -1) {
           ul.removeChild(featuresClasses[i]);
         }
       }
