@@ -1,7 +1,6 @@
 'use strict';
 (function () {
   var MAIN_PIN = document.querySelector('.map__pin--main');
-  var ADRESS_INPUT = document.querySelector('#address');
   var MAP_PIN_WEIGHT = 64;
   var MAP_PIN_HEIGHT = 84;
 
@@ -32,13 +31,6 @@
     return coordsNum;
   };
 
-  // фкнкция для определения адреса объявления
-  var getAdress = function () {
-    var left = +MAIN_PIN.offsetLeft + MAP_PIN_WEIGHT / 2;
-    var top = +MAIN_PIN.offsetTop + MAP_PIN_HEIGHT;
-    ADRESS_INPUT.value = '' + left + ', ' + top;
-  };
-
   //  перемещаем пин
   MAIN_PIN.addEventListener('mousedown', function (evt) {
     var startCoords = {
@@ -60,7 +52,7 @@
 
       MAIN_PIN.style.top = isOnMap(MAIN_PIN.offsetTop - shift.y, Y_COORDS) + 'px';
       MAIN_PIN.style.left = isOnMap(MAIN_PIN.offsetLeft - shift.x, X_COORDS) + 'px';
-      getAdress();
+      window.utilities.getAdress(MAP_PIN_WEIGHT, MAP_PIN_HEIGHT);
     };
 
     var onMouseUp = function () {
