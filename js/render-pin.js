@@ -16,5 +16,5 @@
     return (onePin);
   };
 
-  document.renderPin = renderPin;
+  window.renderPin = renderPin;
 })();

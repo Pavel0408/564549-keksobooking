@@ -2,12 +2,12 @@
 (function () {
   // функция для создания массива объявлений
   var generateAllOffers = function () {
-    var offersTitels = document.constants.TITLES.slice();
-    var offersTypes = document.constants.TYPES.slice();
-    var offersCheckins = document.constants.CHECKINS.slice();
-    var offersCheckouts = document.constants.CHECKOUTS.slice();
-    var offersFeatures = document.constants.FEATURES.slice();
-    var offersPhotos = document.constants.PHOTOS.slice();
+    var offersTitels = window.constants.TITLES.slice();
+    var offersTypes = window.constants.TYPES.slice();
+    var offersCheckins = window.constants.CHECKINS.slice();
+    var offersCheckouts = window.constants.CHECKOUTS.slice();
+    var offersFeatures = window.constants.FEATURES.slice();
+    var offersPhotos = window.constants.PHOTOS.slice();
     var offers = [];
     var maxPrice = 1000000;
     var minPrice = 1000;
@@ -29,7 +29,7 @@
       }
       return avatars;
     };
-    var avatars = avatarsGenerate(document.constants.ADS_NUMBERS);
+    var avatars = avatarsGenerate(window.constants.ADS_NUMBERS);
 
     // определяем тип сдаваемого жилья
     var getTypeOffer = function (str) {
@@ -89,7 +89,7 @@
     };
 
     // создаём нужное колличество объявлений
-    for (var k = 0; k < document.constants.ADS_NUMBERS; k++) {
+    for (var k = 0; k < window.constants.ADS_NUMBERS; k++) {
       var announcement = generateAnnouncement();
       announcement.id = k;
       offers.push(announcement);

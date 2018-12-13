@@ -11,8 +11,8 @@
   // функция для установления минимальной стоимости жилья
   var setMinPrice = function () {
     var type = HOUSING_TYPE.value;
-    PRICE.setAttribute('min', document.constants.MIN_PRICES[type]);
-    PRICE.setAttribute('placeholder', document.constants.MIN_PRICES[type]);
+    PRICE.setAttribute('min', window.constants.MIN_PRICES[type]);
+    PRICE.setAttribute('placeholder', window.constants.MIN_PRICES[type]);
   };
 
 

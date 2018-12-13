@@ -23,8 +23,8 @@
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
 
-      for (var i = 0, featuresLength = document.constants.FEATURES.length; i < featuresLength; i++) {
-        if (arr.offer.features.indexOf(document.constants.FEATURES[i]) === -1) {
+      for (var i = 0, featuresLength = window.constants.FEATURES.length; i < featuresLength; i++) {
+        if (arr.offer.features.indexOf(window.constants.FEATURES[i]) === -1) {
           ul.removeChild(featuresClasses[i]);
         }
       }

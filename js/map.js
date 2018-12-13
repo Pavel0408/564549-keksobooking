@@ -13,8 +13,8 @@
     // функция для отрисовки всех пинов
     var drawPinsOnMap = function () {
       var fragment = document.createDocumentFragment();
-      for (var j = 0; j < document.constants.ADS_NUMBERS; j++) {
-        fragment.appendChild(document.renderPin(window.allOffers[j]));
+      for (var j = 0; j < window.constants.ADS_NUMBERS; j++) {
+        fragment.appendChild(window.renderPin(window.allOffers[j]));
       }
 
       MAP_PINS.appendChild(fragment);

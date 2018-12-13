@@ -59,7 +59,7 @@
     palace: '10000'
   };
 
-  document.constants = {
+  window.constants = {
     TITLES: TITLES,
     TYPES: TYPES,
     CHECKINS: CHECKINS,
