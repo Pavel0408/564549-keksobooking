@@ -1,5 +1,15 @@
 'use strict';
 (function () {
+/**
+  * Модуль renderСard
+  *
+  * Модуль для создания карточки объявления
+  * @param window.renderCard - экспортирует в глобальную область видимости функцию для создания карточки объявления
+  * @param renderCard.renderType - определяет тип жилья
+  * @param renderCard.featuresGenerate - отрисовывает приимущества в карточке объявления
+  * @param renderCard.featuresGenerate - отрисовывает фотографии в карточке объявления
+ */
+
   // функция для отрисовки карточки объявления
   var renderCard = function (announcement) {
     var card = document.querySelector('#card').content

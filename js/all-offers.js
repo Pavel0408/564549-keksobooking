@@ -1,5 +1,13 @@
 'use strict';
 (function () {
+  /**
+ * Модуль all-offers
+ *
+ * Генерирует массив похожих объявлений
+ * @param window.allOffers - экспортирует массив с похожмими объявлениями в глобальную область видимости
+ *
+ */
+
   // функция для создания массива объявлений
   var generateAllOffers = function () {
     var offersTitels = window.constants.TITLES.slice();

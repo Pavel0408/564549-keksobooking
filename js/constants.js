@@ -1,5 +1,19 @@
 'use strict';
 (function () {
+/**
+ * Модуль constants
+ *
+ * Экспортирует в глобальную область видимость константы
+ * @param constants.TITLES - заголовки объявлений
+ * @param constants.TYPES  - типы жилья
+ * @param constants.CHECKINS - время заездов
+ * @param constants.CHECKOUTS - время выездов
+ * @param constants.FEATURES - преимущества, удобства жилья, укзанные в объявлении
+ * @param constants.CHECKOUTS - фотографии в объявлениях
+ * @param constants.MIN_PRICES - минимальная стоимость здачи жиллья
+ * @param constants.ADS_NUMBERS - количество меток похожих объявлений на карте
+ */
+
   //  заголовки объявлений
   var TITLES = [
     'Большая уютная квартира',

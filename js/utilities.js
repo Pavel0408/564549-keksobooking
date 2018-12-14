@@ -1,5 +1,15 @@
 'use strict';
 (function () {
+  /**
+    * Модуль utilities
+    *
+    * Модуль экспортирует различные утилилты
+    * @param window.utilities.getRandomNumber - генерация случайного числа из даипазона
+    * @param window.utilities.getRandomIndex - случайный индекс массива
+    * @param window.utilities.getRandomValue - уникальное значение из массива
+    * @param window.utilities.getAdress - определение адреса на карте с учётом размера метки
+   */
+
   // генерация случайного числа из даипазона
   var getRandomNumber = function (min, max) {
     var rand = min + Math.random() * (max + 1 - min);
@@ -20,6 +30,7 @@
     return val;
   };
 
+  //  Определение адреса на карте с учётом размера метки
   var getAdress = function (weight, heigth) {
     var MAIN_PIN = document.querySelector('.map__pin--main');
     var ADRESS_INPUT = document.querySelector('#address');

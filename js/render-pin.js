@@ -1,5 +1,11 @@
 'use strict';
 (function () {
+/**
+  * Модуль renderPin
+  *
+  * Модуль для создания пина объявления
+  * @param window.renderPin - экспортирует в глобальную область видимости функцию для создания метки объявления
+ */
   // функция для создания одного пина
   var renderPin = function (announcement) {
     var MAP_PIN_WEIGHT = 50;

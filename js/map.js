@@ -1,5 +1,21 @@
 'use strict';
 (function () {
+  /**
+    * Модуль map
+    *
+    * Переводит карту и форму в активное состояние отрисовывает пины похожих объявлений на карте
+    * @param map.- утанавливает минимальную стоимость жилья
+    * @param form.placingOnMap - содержит функции для взамиодействия с картой
+    * @param map.placingOnMap.drawPinsOnMap - отрисовывает пины объявлений на карте
+    * @param map.placingOnMap.makeMapActive -  переводит карту в активное состояние
+    * @param map.placingOnMap.cardDraw - добавляет карточку объявления на страницу
+    * @param map.placingOnMap.makeFormActive - переводит форму в активное стостояние
+    * @param map.placingOnMap.closeCard  - закрывает карточку объявления
+    * @param map.placingOnMap.newCardDraw - создаёт карточку при клике по пину
+    * @param map.placingOnMap.pinsListeners -  добавляет обработчик клика на все пины
+    *  @param map.makeFormDasabled - блокирует поля формы до перетаскивания пина
+   */
+
   var MAP_PINS = document.querySelector('.map__pins');
   var MAP = document.querySelector('.map');
   var FORM = document.querySelector('.ad-form');
@@ -45,6 +61,7 @@
       }
     };
 
+    // функция для закрытия карточки объявления
     var closeCard = function () {
       if (MAP.querySelector('.map__card') !== null) {
         MAP.removeChild(MAP.querySelector('.map__card'));
