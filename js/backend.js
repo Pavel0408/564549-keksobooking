@@ -1,5 +1,12 @@
 'use strict';
 (function () {
+/**
+  * Модуль backend
+  *
+  * Обеспечивает взаимодействие с сервером
+  * @param window.backend.load  - загружает массив с похожими объявлениями с сервера
+  * @param window.backend.save - отправляет данные из формы создания объявления на сервер
+ */
 
   // функция для загрузки данных с сервера
   var load = function (onLoad, onError) {
