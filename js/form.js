@@ -1,5 +1,14 @@
 'use strict';
 (function () {
+/**
+  * Модуль form
+  *
+  * Обеспечевает взаимодейсвие пльзователя с формой отправки объевления
+  * @param form.setMinPrice - уcтанавливает минимальную стоимость жилья
+  * @param form.timeSynchro - синхронизирует время заезда и выезда
+  * @param form.setMinGuests - установливает соответсвие гостей и комнат
+ */
+
   var PRICE = document.querySelector('#price');
   var TIMEIN = document.querySelector('#timein');
   var TIMOUT = document.querySelector('#timeout');
@@ -8,19 +17,11 @@
   var CAPACITY_OPTIONS = CAPACITY.querySelectorAll('option');
   var HOUSING_TYPE = document.querySelector('#type');
 
-  // минимальная стоимость
-  var MIN_PRICES = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
-  };
-
   // функция для установления минимальной стоимости жилья
   var setMinPrice = function () {
     var type = HOUSING_TYPE.value;
-    PRICE.setAttribute('min', MIN_PRICES[type]);
-    PRICE.setAttribute('placeholder', MIN_PRICES[type]);
+    PRICE.setAttribute('min', window.constants.MIN_PRICES[type]);
+    PRICE.setAttribute('placeholder', window.constants.MIN_PRICES[type]);
   };
 
 
