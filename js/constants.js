@@ -81,6 +81,10 @@
     FEATURES: FEATURES,
     PHOTOS: PHOTOS,
     MIN_PRICES: MIN_PRICES,
-    ADS_NUMBERS: 8
+    ADS_NUMBERS: 8,
+    urls: {
+      load: 'https://js.dump.academy/keksobooking/data',
+      save: 'https://js.dump.academy/keksobooking'
+    }
   };
 })();

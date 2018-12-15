@@ -26,10 +26,33 @@
 
   var placingOnMap = function () {
 
+    var sucsessHandler = function (offers) {
+      var allOffers = offers.slice();
+      allOffers.forEach(function (offer, index) {
+        offer.id = index;
+      });
+      window.allOffers = allOffers;
+      drawPinsOnMap();
+    };
+
+    var errorHandler = function (errorMessage) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.classList.add('error-message');
+      node.style.fontSize = '40px';
+
+      node.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', node);
+    };
+
     // функция для отрисовки всех пинов
     var drawPinsOnMap = function () {
       var fragment = document.createDocumentFragment();
       for (var j = 0; j < window.constants.ADS_NUMBERS; j++) {
+        console.log(window.allOffers[j]);
         fragment.appendChild(window.renderPin(window.allOffers[j]));
       }
 
@@ -86,7 +109,7 @@
       }
     };
 
-    drawPinsOnMap();
+    window.backend.load(sucsessHandler, errorHandler);
     makeMapActive();
     makeFormActive();
 

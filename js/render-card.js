@@ -62,7 +62,7 @@
     featuresGenerate(announcement);
     mapCard.querySelector('.popup__description').textContent = announcement.offer.description;
     renderPhoto(announcement);
-    mapCard.querySelector('.popup__avatar').src = announcement.autor.avatar;
+    mapCard.querySelector('.popup__avatar').src = announcement.author.avatar;
 
     return mapCard;
   };
