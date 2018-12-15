@@ -26,6 +26,7 @@
   var FIELDSETS = document.querySelectorAll('fieldset');
   var AD_FORM = document.querySelector('.ad-form');
   var SUCCESS = document.querySelector('#success').content.querySelector('.success');
+  var ERROR = document.querySelector('#error').content.querySelector('.error');
   var MAIN = document.querySelector('main');
   var RESTE_FORM_BUTTON = document.querySelector('.ad-form__reset');
 
@@ -40,20 +41,23 @@
       drawPinsOnMap();
     };
 
-    var errorHandler = function (errorMessage) {
-      console.log('Не получилось');
+    var errorHandler = function () {
+      var errorMessage = ERROR.cloneNode(true);
+      MAIN.appendChild(errorMessage);
+      var closeErrorMessage = function () {
+        errorMessage.remove();
+      };
+      document.addEventListener('click', closeErrorMessage);
     };
 
     var formSucsessHandler = function () {
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
-      RESTE_FORM_BUTTON.click();
       makeMapNotActive();
       var closeSuccessMessage = function () {
         successMessage.remove();
       };
       document.addEventListener('click', closeSuccessMessage);
-
     };
 
 

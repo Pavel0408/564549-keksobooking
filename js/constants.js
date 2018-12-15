@@ -84,7 +84,7 @@
     ADS_NUMBERS: 8,
     urls: {
       load: 'https://js.dump.academy/keksobooking/data',
-      save: 'https://js.dump.academy/keksobooking'
+      save: 'https://js.dump.academy/keksobookin'
     }
   };
 })();
