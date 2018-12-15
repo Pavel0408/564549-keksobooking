@@ -18,12 +18,17 @@
 
   var MAP_PINS = document.querySelector('.map__pins');
   var MAP = document.querySelector('.map');
-  var FORM = document.querySelector('.ad-form');
   var MAP_PIN_MAIN = document.querySelector('.map__pin--main');
   var MAIN_PIN_WEIGHT = MAP_PIN_MAIN.offsetWidth;
   var MAIN_PIN_HEIGHT = MAP_PIN_MAIN.offsetHeight;
+  var MAIN_PIN_TOP = MAP_PIN_MAIN.offsetTop;
+  var MAIN_PIN_LEFT = MAP_PIN_MAIN.offsetLeft;
   var FIELDSETS = document.querySelectorAll('fieldset');
   var AD_FORM = document.querySelector('.ad-form');
+  var SUCCESS = document.querySelector('#success').content.querySelector('.success');
+  var MAIN = document.querySelector('main');
+  var RESTE_FORM_BUTTON = document.querySelector('.ad-form__reset');
+
   var placingOnMap = function () {
 
     var sucsessHandler = function (offers) {
@@ -36,20 +41,19 @@
     };
 
     var errorHandler = function (errorMessage) {
-      var node = document.createElement('div');
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-      node.style.position = 'absolute';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.classList.add('error-message');
-      node.style.fontSize = '40px';
-
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement('afterbegin', node);
+      console.log('Не получилось');
     };
 
     var formSucsessHandler = function () {
-      console.log('Получилось');
+      var successMessage = SUCCESS.cloneNode(true);
+      MAIN.appendChild(successMessage);
+      RESTE_FORM_BUTTON.click();
+      makeMapNotActive();
+      var closeSuccessMessage = function () {
+        successMessage.remove();
+      };
+      document.addEventListener('click', closeSuccessMessage);
+
     };
 
 
@@ -72,7 +76,24 @@
     // функция для перевода карты в активное состояние
     var makeMapActive = function () {
       MAP.classList.remove('map--faded');
-      FORM.classList.remove('ad-form--disabled');
+      AD_FORM.classList.remove('ad-form--disabled');
+    };
+
+    // функция для перевода карты и формы в нективное состояние
+    var makeMapNotActive = function () {
+      var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      allOffersPins.forEach(function (pin) {
+        pin.remove();
+      });
+      MAP.classList.add('map--faded');
+      AD_FORM.reset();
+      AD_FORM.classList.add('ad-form--disabled');
+      closeCard();
+      window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
+      makeFormDasabled();
+      MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
+      MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
+      MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
     };
 
     // фунция для добавления карточки объявления на страницу
@@ -131,6 +152,8 @@
 
     // добавляем обработчик клика на все пины
     MAP.addEventListener('click', pinsListeners);
+
+    RESTE_FORM_BUTTON.addEventListener('click', makeMapNotActive);
   };
 
   // функция для перевода формы в неактивное состояние

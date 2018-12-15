@@ -19,7 +19,6 @@
     onePin.querySelector('img').src = announcement.author.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
     onePin.dataset.id = announcement.id;
-    console.log(announcement.id);
     return (onePin);
   };
 
