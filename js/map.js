@@ -51,9 +51,15 @@
     // функция для отрисовки всех пинов
     var drawPinsOnMap = function () {
       var fragment = document.createDocumentFragment();
-      for (var j = 0; j < window.constants.ADS_NUMBERS; j++) {
-        console.log(window.allOffers[j]);
+      for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
+        if (!window.allOffers[j].offer) {
+          console.log(window.allOffers[j]);
+          // continue;
+        }
         fragment.appendChild(window.renderPin(window.allOffers[j]));
+        if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
+          break;
+        }
       }
 
       MAP_PINS.appendChild(fragment);
