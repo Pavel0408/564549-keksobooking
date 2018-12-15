@@ -24,12 +24,10 @@
     PRICE.setAttribute('placeholder', window.constants.MIN_PRICES[type]);
   };
 
-
   // функции для синхронизации времени заезда и выезда
   var timeSynchro = function (evt) {
     TIMOUT.value = TIMEIN.value = evt.target.value;
   };
-
 
   // функция для установления соответсвия гостей и комнат
   var setMinGuests = function () {
@@ -53,7 +51,6 @@
       }
     }
   };
-
 
   setMinPrice();
   setMinGuests();

@@ -29,9 +29,12 @@
   var ERROR = document.querySelector('#error').content.querySelector('.error');
   var MAIN = document.querySelector('main');
   var RESTE_FORM_BUTTON = document.querySelector('.ad-form__reset');
+  var ESC_KEYCODE = 27;
+
 
   var placingOnMap = function () {
 
+    // обработчик успешной загркзки похожих объявлений
     var sucsessHandler = function (offers) {
       var allOffers = offers.slice();
       allOffers.forEach(function (offer, index) {
@@ -41,23 +44,46 @@
       drawPinsOnMap();
     };
 
+    // обработчик ошибки закгрузки
     var errorHandler = function () {
       var errorMessage = ERROR.cloneNode(true);
       MAIN.appendChild(errorMessage);
       var closeErrorMessage = function () {
         errorMessage.remove();
       };
+      var escPressErrHandler = function (evt) {
+        if (evt.keyCode === ESC_KEYCODE) {
+          evt.preventDefault();
+          closeErrorMessage();
+          document.removeEventListener('click', closeErrorMessage);
+          document.removeEventListener('keydown', escPressErrHandler);
+        }
+      };
+
       document.addEventListener('click', closeErrorMessage);
+      document.addEventListener('keydown', escPressErrHandler);
     };
 
+    // обработчик успешной загрузки формы
     var formSucsessHandler = function () {
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
       makeMapNotActive();
       var closeSuccessMessage = function () {
         successMessage.remove();
+        document.removeEventListener('click', closeSuccessMessage);
+        document.removeEventListener('keydown', escPressHandler);
       };
+
+      var escPressHandler = function (evt) {
+        if (evt.keyCode === ESC_KEYCODE) {
+          evt.preventDefault();
+          closeSuccessMessage();
+        }
+      };
+
       document.addEventListener('click', closeSuccessMessage);
+      document.addEventListener('keydown', escPressHandler);
     };
 
 
@@ -90,14 +116,14 @@
         pin.remove();
       });
       MAP.classList.add('map--faded');
-      AD_FORM.reset();
       AD_FORM.classList.add('ad-form--disabled');
+      AD_FORM.reset();
       closeCard();
       window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
       makeFormDasabled();
-      MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
+      MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
     };
 
     // фунция для добавления карточки объявления на страницу
@@ -121,9 +147,12 @@
 
     // функция для закрытия карточки объявления
     var closeCard = function () {
+      var activePin = document.querySelector('.map__pin--active');
       if (MAP.querySelector('.map__card') !== null) {
         MAP.removeChild(MAP.querySelector('.map__card'));
-        document.querySelector('.map__pin--active').classList.remove('map__pin--active');
+        if (activePin !== null) {
+          activePin.classList.remove('map__pin--active');
+        }
       }
     };
 
@@ -141,11 +170,12 @@
       }
 
       if (num) {
-        target.classList.add('map__pin--active');
         newCardDraw(num);
+        target.classList.add('map__pin--active');
       }
     };
 
+    // Загружаем похожие оъявления с сервера
     window.backend.load(sucsessHandler, errorHandler);
     makeMapActive();
     makeFormActive();

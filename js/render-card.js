@@ -1,14 +1,14 @@
 'use strict';
 (function () {
-/**
-  * Модуль renderСard
-  *
-  * Модуль для создания карточки объявления
-  * @param window.renderCard - экспортирует в глобальную область видимости функцию для создания карточки объявления
-  * @param renderCard.renderType - определяет тип жилья
-  * @param renderCard.featuresGenerate - отрисовывает приимущества в карточке объявления
-  * @param renderCard.featuresGenerate - отрисовывает фотографии в карточке объявления
- */
+  /**
+    * Модуль renderСard
+    *
+    * Модуль для создания карточки объявления
+    * @param window.renderCard - экспортирует в глобальную область видимости функцию для создания карточки объявления
+    * @param renderCard.renderType - определяет тип жилья
+    * @param renderCard.featuresGenerate - отрисовывает приимущества в карточке объявления
+    * @param renderCard.featuresGenerate - отрисовывает фотографии в карточке объявления
+   */
 
   // функция для отрисовки карточки объявления
   var renderCard = function (announcement) {
@@ -32,11 +32,14 @@
     var featuresGenerate = function (arr) {
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
-
       for (var i = 0, featuresLength = window.constants.FEATURES.length; i < featuresLength; i++) {
         if (arr.offer.features.indexOf(window.constants.FEATURES[i]) === -1) {
           ul.removeChild(featuresClasses[i]);
         }
+      }
+      featuresClasses = mapCard.querySelectorAll('.popup__feature');
+      if (featuresClasses.length === 0) {
+        ul.remove();
       }
     };
 
@@ -49,6 +52,9 @@
         var tempPhoto = photo.cloneNode(true);
         tempPhoto.src = arr.offer.photos[i];
         photoBlock.appendChild(tempPhoto);
+      }
+      if (photoBlock.querySelectorAll('img').length === 0) {
+        photoBlock.remove();
       }
     };
 
