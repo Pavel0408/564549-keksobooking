@@ -23,7 +23,7 @@
   var MAIN_PIN_WEIGHT = MAP_PIN_MAIN.offsetWidth;
   var MAIN_PIN_HEIGHT = MAP_PIN_MAIN.offsetHeight;
   var FIELDSETS = document.querySelectorAll('fieldset');
-
+  var AD_FORM = document.querySelector('.ad-form');
   var placingOnMap = function () {
 
     var sucsessHandler = function (offers) {
@@ -48,13 +48,17 @@
       document.body.insertAdjacentElement('afterbegin', node);
     };
 
+    var formSucsessHandler = function () {
+      console.log('Получилось');
+    };
+
+
     // функция для отрисовки всех пинов
     var drawPinsOnMap = function () {
       var fragment = document.createDocumentFragment();
       for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
         if (!window.allOffers[j].offer) {
-          console.log(window.allOffers[j]);
-          // continue;
+          continue;
         }
         fragment.appendChild(window.renderPin(window.allOffers[j]));
         if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
@@ -118,6 +122,10 @@
     window.backend.load(sucsessHandler, errorHandler);
     makeMapActive();
     makeFormActive();
+    AD_FORM.addEventListener('submit', function (evt) {
+      window.backend.save(new FormData(AD_FORM), formSucsessHandler, errorHandler);
+      evt.preventDefault();
+    });
 
     MAP_PIN_MAIN.removeEventListener('mouseup', placingOnMap);
 
