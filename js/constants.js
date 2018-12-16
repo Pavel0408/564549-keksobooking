@@ -17,7 +17,7 @@
     'dishwasher',
     'parking',
     'washer',
-    'elevato',
+    'elevator',
     'conditioner'
   ];
 
