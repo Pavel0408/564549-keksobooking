@@ -1,13 +1,13 @@
 'use strict';
 (function () {
-/**
-  * Модуль form
-  *
-  * Обеспечевает взаимодейсвие пльзователя с формой отправки объевления
-  * @param form.setMinPrice - уcтанавливает минимальную стоимость жилья
-  * @param form.timeSynchro - синхронизирует время заезда и выезда
-  * @param form.setMinGuests - установливает соответсвие гостей и комнат
- */
+  /**
+    * Модуль form
+    *
+    * Обеспечевает взаимодейсвие пльзователя с формой отправки объевления
+    * @param form.setMinPrice - уcтанавливает минимальную стоимость жилья
+    * @param form.timeSynchro - синхронизирует время заезда и выезда
+    * @param form.setMinGuests - установливает соответсвие гостей и комнат
+   */
 
   var PRICE = document.querySelector('#price');
   var TIMEIN = document.querySelector('#timein');
@@ -58,4 +58,8 @@
   TIMOUT.addEventListener('change', timeSynchro);
   HOUSING_TYPE.addEventListener('change', setMinPrice);
   ROOM_NUMBER.addEventListener('change', setMinGuests);
+  window.form = {
+    setMinPrice: setMinPrice,
+    setMinGuests: setMinGuests
+  };
 })();

@@ -124,6 +124,8 @@
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
       MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
+      window.form.setMinPrice();
+      window.form.setMinGuests();
     };
 
     // фунция для добавления карточки объявления на страницу
