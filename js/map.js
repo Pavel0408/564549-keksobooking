@@ -25,6 +25,7 @@
   var MAIN_PIN_LEFT = MAP_PIN_MAIN.offsetLeft;
   var FIELDSETS = document.querySelectorAll('fieldset');
   var AD_FORM = document.querySelector('.ad-form');
+  var MAP_FORM = document.querySelector('.map__filters');
   var SUCCESS = document.querySelector('#success').content.querySelector('.success');
   var ERROR = document.querySelector('#error').content.querySelector('.error');
   var MAIN = document.querySelector('main');
@@ -98,6 +99,7 @@
       MAP.classList.add('map--faded');
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
+      MAP_FORM.reset();
       closeCard();
       window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
       makeFormDasabled();
@@ -124,17 +126,6 @@
     var makeFormActive = function () {
       for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
         FIELDSETS[i].removeAttribute('disabled');
-      }
-    };
-
-    // функция для закрытия карточки объявления
-    var closeCard = function () {
-      var activePin = document.querySelector('.map__pin--active');
-      if (MAP.querySelector('.map__card') !== null) {
-        MAP.removeChild(MAP.querySelector('.map__card'));
-        if (activePin !== null) {
-          activePin.classList.remove('map__pin--active');
-        }
       }
     };
 
@@ -190,6 +181,17 @@
     MAP_PINS.appendChild(fragment);
   };
 
+  // функция для закрытия карточки объявления
+  var closeCard = function () {
+    var activePin = document.querySelector('.map__pin--active');
+    if (MAP.querySelector('.map__card') !== null) {
+      MAP.removeChild(MAP.querySelector('.map__card'));
+      if (activePin !== null) {
+        activePin.classList.remove('map__pin--active');
+      }
+    }
+  };
+
   var delAllPins = function () {
     var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     allOffersPins.forEach(function (pin) {
@@ -211,6 +213,7 @@
 
   window.map = {
     drawPinsOnMap: drawPinsOnMap,
-    delAllPins: delAllPins
+    delAllPins: delAllPins,
+    closeCard: closeCard
   };
 })();

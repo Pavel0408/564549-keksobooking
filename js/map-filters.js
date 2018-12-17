@@ -35,9 +35,8 @@
     checkboxChecked.forEach(function (checkbox) {
       if (announcement.offer.features.indexOf(checkbox.value) !== -1) {
         rank += 1;
-        console.log(checkbox);
       }
-    })
+    });
 
     if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type === HOUSING_TYPE.value)) {
       rank += 3;
@@ -61,7 +60,7 @@
   // функция для обновления списка похожих волшебников
   var updatePins = function () {
     window.map.delAllPins();
-
+    window.map.closeCard();
     window.map.drawPinsOnMap(window.allOffers.slice().
       sort(function (left, right) {
         var rankDiff = getRank(right) - getRank(left);
@@ -76,7 +75,6 @@
     select.addEventListener('change', updatePins);
     document.querySelectorAll('.map__checkbox').forEach(function (checkbox) {
       checkbox.addEventListener('change', updatePins);
-      console.log(checkbox);
     });
 
 
