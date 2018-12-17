@@ -57,7 +57,6 @@
     return rank;
   };
 
-  // функция для обновления списка похожих волшебников
   var updatePins = function () {
     window.map.delAllPins();
     window.map.closeCard();
@@ -70,13 +69,18 @@
         return rankDiff;
       }));
   };
-  HOUSING_TYPE.addEventListener('change', updatePins);
   document.querySelectorAll('.map__filter').forEach(function (select) {
-    select.addEventListener('change', updatePins);
-    document.querySelectorAll('.map__checkbox').forEach(function (checkbox) {
-      checkbox.addEventListener('change', updatePins);
+    select.addEventListener('change', function () {
+      window.debounce(updatePins);
     });
-
-
   });
+
+  document.querySelectorAll('.map__checkbox').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+      window.debounce(updatePins);
+    });
+  });
+
+
+  // });
 })();
