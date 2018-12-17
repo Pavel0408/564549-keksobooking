@@ -12,7 +12,6 @@
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    console.log('работает');
     lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
   };
 })();

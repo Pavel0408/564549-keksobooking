@@ -4,16 +4,6 @@
   var HOUSING_PRICE = document.querySelector('#housing-price');
   var HOUSING_ROOMS = document.querySelector('#housing-rooms');
   var HOUSING_GUESTS = document.querySelector('#housing-guests');
-  var WIFI = document.querySelector('#filter-wifi');
-  var DISHWASHER = document.querySelector('#filter-dishwasher');
-  var PARKING = document.querySelector('#filter-parking');
-  var WASHER = document.querySelector('#filter-washer');
-  var ELEVATOR = document.querySelector('#filter-elevator');
-  var CONDITIONER = document.querySelector('#filter-conditioner');
-
-  var coatColor;
-  var eyesColor;
-  var wizards = [];
 
   var prices = {
     middle: {
@@ -80,7 +70,4 @@
       window.debounce(updatePins);
     });
   });
-
-
-  // });
 })();
