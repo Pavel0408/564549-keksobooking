@@ -32,10 +32,10 @@
   var getRank = function (announcement) {
     var rank = 0;
 
-    if (announcement.offer.type === HOUSING_TYPE.value) {
+    if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type === HOUSING_TYPE.value)) {
       rank += 3;
     }
-    if ((announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max)) {
+    if ((HOUSING_PRICE.value !== 'any') && (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max)) {
       rank += 3;
     }
     if (announcement.offer.rooms === HOUSING_ROOMS.value) {
@@ -49,7 +49,7 @@
     }
 
     return rank;
-  }
+  };
 
   // функция для обновления списка похожих волшебников
   var updatePins = function () {
@@ -61,7 +61,8 @@
         if (rankDiff === 0) {
           rankDiff = window.allOffers.indexOf(left) - window.allOffers.indexOf(right);
         }
-
+        console.log(right);
+        console.log(rankDiff);
         return rankDiff;
       }));
   };
