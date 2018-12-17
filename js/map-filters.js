@@ -24,7 +24,7 @@
     var checkboxChecked = document.querySelectorAll('.map__checkbox:checked');
     checkboxChecked.forEach(function (checkbox) {
       if (announcement.offer.features.indexOf(checkbox.value) !== -1) {
-        rank += 1;
+        rank += 2;
       }
     });
 
