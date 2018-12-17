@@ -16,7 +16,7 @@
     var pinLeft = +(announcement.location.x) - MAP_PIN_WEIGHT / 2;
     onePin.style = 'left: ' + pinLeft + 'px; top: ' + pinTop + 'px;';
 
-    onePin.querySelector('img').src = announcement.autor.avatar;
+    onePin.querySelector('img').src = announcement.author.avatar;
     onePin.querySelector('img').alt = announcement.offer.title;
     onePin.dataset.id = announcement.id;
     return (onePin);
