@@ -41,7 +41,7 @@
         offer.id = index;
       });
       window.allOffers = allOffers;
-      drawPinsOnMap();
+      drawPinsOnMap(window.allOffers);
     };
 
     // обработчик ошибки закгрузки
@@ -86,23 +86,6 @@
       document.addEventListener('keydown', escPressHandler);
     };
 
-
-    // функция для отрисовки всех пинов
-    var drawPinsOnMap = function () {
-      var fragment = document.createDocumentFragment();
-      for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
-        if (!window.allOffers[j].offer) {
-          continue;
-        }
-        fragment.appendChild(window.renderPin(window.allOffers[j]));
-        if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
-          break;
-        }
-      }
-
-      MAP_PINS.appendChild(fragment);
-    };
-
     // функция для перевода карты в активное состояние
     var makeMapActive = function () {
       MAP.classList.remove('map--faded');
@@ -111,10 +94,7 @@
 
     // функция для перевода карты и формы в нективное состояние
     var makeMapNotActive = function () {
-      var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      allOffersPins.forEach(function (pin) {
-        pin.remove();
-      });
+      delAllPins();
       MAP.classList.add('map--faded');
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
@@ -194,6 +174,29 @@
     RESTE_FORM_BUTTON.addEventListener('click', makeMapNotActive);
   };
 
+  // функция для отрисовки всех пинов
+  var drawPinsOnMap = function (offerArr) {
+    var fragment = document.createDocumentFragment();
+    for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
+      if (!window.allOffers[j].offer) {
+        continue;
+      }
+      fragment.appendChild(window.renderPin(offerArr[j]));
+      if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
+        break;
+      }
+    }
+
+    MAP_PINS.appendChild(fragment);
+  };
+
+  var delAllPins = function () {
+    var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    allOffersPins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
   // функция для перевода формы в неактивное состояние
   var makeFormDasabled = function () {
     for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
@@ -205,4 +208,9 @@
 
   makeFormDasabled();
   MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
+
+  window.map = {
+    drawPinsOnMap: drawPinsOnMap,
+    delAllPins: delAllPins
+  };
 })();
