@@ -23,7 +23,7 @@
     },
     high: {
       min: 50000,
-      max: 10000000
+      max: Infinity
     }
   };
 
