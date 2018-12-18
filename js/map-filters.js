@@ -29,36 +29,40 @@
 
   // функция ранжирования объявлений в соответствии с фильтрами
   var getRank = function (announcement) {
-    var rank = true;
     var checkboxChecked = document.querySelectorAll('.map__checkbox:checked');
-    checkboxChecked.forEach(function (checkbox) {
-      if (announcement.offer.features.indexOf(checkbox.value) === -1) {
-        rank = false;
-      }
-    });
+
+    // функция для проверки чекбоксов
+    var checkboxCheck = function () {
+      var rank = false;
+      checkboxChecked.forEach(function (checkbox) {
+        if (announcement.offer.features.indexOf(checkbox.value) === -1) {
+          rank = true;
+        }
+      });
+      return rank;
+    };
+    if (checkboxCheck()) {
+      return false;
+    }
 
     if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type !== HOUSING_TYPE.value)) {
-      rank = false;
-      return rank;
+      return false;
     }
     if ((HOUSING_PRICE.value !== 'any') &&
       !(
         (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max))) {
-      rank = false;
-      return rank;
+      return false;
     }
     if ((HOUSING_ROOMS.value !== 'any') &&
       (+announcement.offer.rooms !== +HOUSING_ROOMS.value)) {
-      rank = false;
-      return rank;
+      return false;
     }
     if ((HOUSING_GUESTS.value !== 'any') &&
       (+announcement.offer.guests !== +HOUSING_GUESTS.value)) {
-      rank = false;
-      return rank;
+      return false;
     }
 
-    return rank;
+    return true;
   };
 
   // функция объновления пинов после применения фильтров
