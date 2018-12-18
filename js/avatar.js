@@ -1,6 +1,10 @@
 'use strict';
-
 (function () {
+  /**
+    * Модуль avatar
+    *
+    * Показывает в форме загруженную аватарку пользователя
+   */
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var fileChooser = document.querySelector('.ad-form-header__input');
