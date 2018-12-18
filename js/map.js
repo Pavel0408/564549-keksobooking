@@ -168,7 +168,7 @@
   // функция для отрисовки всех пинов
   var drawPinsOnMap = function (offerArr) {
     var fragment = document.createDocumentFragment();
-    for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
+    for (var j = 0, allOffersLength = offerArr.length; j < allOffersLength; j++) {
       if (!window.allOffers[j].offer) {
         continue;
       }

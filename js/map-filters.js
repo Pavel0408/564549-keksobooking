@@ -29,28 +29,34 @@
 
   // функция ранжирования объявлений в соответствии с фильтрами
   var getRank = function (announcement) {
-    var rank = 0;
+    var rank = true;
     var checkboxChecked = document.querySelectorAll('.map__checkbox:checked');
     checkboxChecked.forEach(function (checkbox) {
-      if (announcement.offer.features.indexOf(checkbox.value) !== -1) {
-        rank += 2;
+      if (announcement.offer.features.indexOf(checkbox.value) === -1) {
+        rank = false;
       }
     });
 
-    if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type === HOUSING_TYPE.value)) {
-      rank += 3;
+    if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type !== HOUSING_TYPE.value)) {
+      rank = false;
+      console.log('Не прошло');
+      return rank;
     }
-    if ((HOUSING_PRICE.value !== 'any') && (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max)) {
-      rank += 3;
+    if ((HOUSING_PRICE.value !== 'any') &&
+      !(
+        (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max))) {
+      rank = false;
+      return rank;
     }
-    if (+announcement.offer.rooms === +HOUSING_ROOMS.value) {
-      rank += 3;
+    if ((HOUSING_ROOMS.value !== 'any') &&
+      (+announcement.offer.rooms !== +HOUSING_ROOMS.value)) {
+      rank = false;
+      return rank;
     }
-    if (+announcement.offer.rooms === +HOUSING_ROOMS.value) {
-      rank += 3;
-    }
-    if (+announcement.offer.guests === +HOUSING_GUESTS.value) {
-      rank += 3;
+    if ((HOUSING_GUESTS.value !== 'any') &&
+      (+announcement.offer.guests !== +HOUSING_GUESTS.value)) {
+      rank = false;
+      return rank;
     }
 
     return rank;
@@ -60,15 +66,7 @@
   var updatePins = function () {
     window.map.delAllPins();
     window.map.closeCard();
-    window.map.drawPinsOnMap(window.allOffers.slice().
-      sort(function (left, right) {
-        var rankDiff = getRank(right) - getRank(left);
-        if (rankDiff === 0) {
-          rankDiff = window.allOffers.indexOf(left) - window.allOffers.indexOf(right);
-        }
-
-        return rankDiff;
-      }));
+    window.map.drawPinsOnMap(window.allOffers.slice().filter(getRank));
   };
   document.querySelectorAll('.map__filter').forEach(function (select) {
     select.addEventListener('change', function () {
