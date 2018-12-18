@@ -18,12 +18,12 @@
       max: 50000
     },
     low: {
-      min: -Infinity,
+      min: 0,
       max: 10000
     },
     high: {
       min: 50000,
-      max: Infinity
+      max: 10000000
     }
   };
 
@@ -39,12 +39,11 @@
 
     if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type !== HOUSING_TYPE.value)) {
       rank = false;
-      console.log('Не прошло');
       return rank;
     }
     if ((HOUSING_PRICE.value !== 'any') &&
       !(
-        (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max))) {
+        (announcement.offer.price > prices[HOUSING_PRICE.value].min) && (announcement.offer.price < prices[HOUSING_PRICE.value].max))) {
       rank = false;
       return rank;
     }
