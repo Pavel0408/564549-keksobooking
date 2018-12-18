@@ -43,7 +43,7 @@
     }
     if ((HOUSING_PRICE.value !== 'any') &&
       !(
-        (announcement.offer.price > prices[HOUSING_PRICE.value].min) && (announcement.offer.price < prices[HOUSING_PRICE.value].max))) {
+        (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max))) {
       rank = false;
       return rank;
     }
