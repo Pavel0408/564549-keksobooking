@@ -28,11 +28,11 @@
   };
 
   // функция ранжирования объявлений в соответствии с фильтрами
-  var getRank = function (announcement) {
+  var pinsFilter = function (announcement) {
     var checkboxChecked = document.querySelectorAll('.map__checkbox:checked');
 
     // функция для проверки чекбоксов
-    var checkboxCheck = function () {
+    var checkboxFilter = function () {
       var rank = false;
       checkboxChecked.forEach(function (checkbox) {
         if (announcement.offer.features.indexOf(checkbox.value) === -1) {
@@ -43,44 +43,39 @@
     };
 
     // функция для проверки селектов
-    var checkFilter = function (filterValue, offerValue) {
-      if (filterValue == 'any') {
+    var selectFilter = function (filterValue, offerValue) {
+      if (filterValue === 'any') {
         return false;
       }
-      var value = filterValue;
-      console.log(typeof (offerValue));
+
       if (typeof (offerValue) === 'number') {
-        console.log('прошло');
-        filterValue= +filterValue;
-        console.log(filterValue, 'тип', typeof (filterValue));
+        filterValue = +filterValue;
       }
+
       if (offerValue !== filterValue) {
-        console.log('true', filterValue, offerValue)
         return true;
-
       }
-      console.log('false', filterValue, offerValue)
-      return false;
 
+      return false;
     };
 
     // Проверяем тип жилья
-    if (checkFilter(HOUSING_TYPE.value, announcement.offer.type)) {
+    if (selectFilter(HOUSING_TYPE.value, announcement.offer.type)) {
       return false;
-    };
+    }
 
     // Проверяем колличество комнат
-    if (checkFilter(HOUSING_ROOMS.value, +announcement.offer.rooms)) {
+    if (selectFilter(HOUSING_ROOMS.value, announcement.offer.rooms)) {
       return false;
-    };
+    }
 
     //  Проверяем колличесво гостей
-    if (checkFilter(HOUSING_GUESTS.value, announcement.offer.guests)) {
+    if (selectFilter(HOUSING_GUESTS.value, announcement.offer.guests)) {
       return false;
-    };
+    }
 
     // проверяем чекбоксы
-    if (checkboxCheck()) {
+    if (checkboxFilter()) {
       return false;
     }
 
@@ -98,7 +93,7 @@
   var updatePins = function () {
     window.map.delAllPins();
     window.map.closeCard();
-    window.map.drawPinsOnMap(window.allOffers.slice().filter(getRank));
+    window.map.drawPinsOnMap(window.allOffers.slice().filter(pinsFilter));
   };
 
   // устанавливаем слушатели на все элементы формы фильтрации объявлений
