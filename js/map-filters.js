@@ -41,24 +41,53 @@
       });
       return rank;
     };
+
+    // функция для проверки селектов
+    var checkFilter = function (filterValue, offerValue) {
+      if (filterValue == 'any') {
+        return false;
+      }
+      var value = filterValue;
+      console.log(typeof (offerValue));
+      if (typeof (offerValue) === 'number') {
+        console.log('прошло');
+        filterValue= +filterValue;
+        console.log(filterValue, 'тип', typeof (filterValue));
+      }
+      if (offerValue !== filterValue) {
+        console.log('true', filterValue, offerValue)
+        return true;
+
+      }
+      console.log('false', filterValue, offerValue)
+      return false;
+
+    };
+
+    // Проверяем тип жилья
+    if (checkFilter(HOUSING_TYPE.value, announcement.offer.type)) {
+      return false;
+    };
+
+    // Проверяем колличество комнат
+    if (checkFilter(HOUSING_ROOMS.value, +announcement.offer.rooms)) {
+      return false;
+    };
+
+    //  Проверяем колличесво гостей
+    if (checkFilter(HOUSING_GUESTS.value, announcement.offer.guests)) {
+      return false;
+    };
+
+    // проверяем чекбоксы
     if (checkboxCheck()) {
       return false;
     }
 
-    if ((HOUSING_TYPE.value !== 'any') && (announcement.offer.type !== HOUSING_TYPE.value)) {
-      return false;
-    }
+    // проверяем дипазон цен
     if ((HOUSING_PRICE.value !== 'any') &&
       !(
         (announcement.offer.price >= prices[HOUSING_PRICE.value].min) && (announcement.offer.price <= prices[HOUSING_PRICE.value].max))) {
-      return false;
-    }
-    if ((HOUSING_ROOMS.value !== 'any') &&
-      (+announcement.offer.rooms !== +HOUSING_ROOMS.value)) {
-      return false;
-    }
-    if ((HOUSING_GUESTS.value !== 'any') &&
-      (+announcement.offer.guests !== +HOUSING_GUESTS.value)) {
       return false;
     }
 
