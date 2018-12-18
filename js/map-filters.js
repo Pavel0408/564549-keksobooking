@@ -68,16 +68,10 @@
     window.map.closeCard();
     window.map.drawPinsOnMap(window.allOffers.slice().filter(getRank));
   };
-  document.querySelectorAll('.map__filter').forEach(function (select) {
-    select.addEventListener('change', function () {
-      window.debounce(updatePins);
-    });
-  });
-
 
   // устанавливаем слушатели на все элементы формы фильтрации объявлений
-  document.querySelectorAll('.map__checkbox').forEach(function (checkbox) {
-    checkbox.addEventListener('change', function () {
+  document.querySelectorAll('.map__filter, .map__checkbox').forEach(function (filter) {
+    filter.addEventListener('change', function () {
       window.debounce(updatePins);
     });
   });
