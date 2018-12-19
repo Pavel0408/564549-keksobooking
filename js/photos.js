@@ -7,14 +7,17 @@
    */
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FOTO_FRAME = document.querySelector('.ad-form__photo').cloneNode(true);
-  var fileChooser = document.querySelectorAll('input[type=file]');
+  var IMAGES_INPUT = document.querySelector('#images');
+  var AVATAR_INPUT = document.querySelector('#avatar');
   var preview = document.querySelector('.ad-form-header__preview img');
   var previewSrc = preview.src;
   var PHOTO_CONTAINER = document.querySelector('.ad-form__photo-container');
 
+  // функция проверяет, что загруженные файлы - изображения
   var verefyFoto = function (filesArr) {
     var isFileType = function (fileName) {
       FILE_TYPES.some(function (it) {
+
         return fileName.endsWith(it);
       });
     };
@@ -25,10 +28,11 @@
         matches = false;
       }
     });
+
     return matches;
   };
 
-
+  // функция отрисовывает преданный файл в указанном img
   var renderOneFoto = function (file, img) {
     var reader = new FileReader();
     reader.addEventListener('load', function () {
@@ -38,15 +42,12 @@
     reader.readAsDataURL(file);
   };
 
+  // функция отрисовывает изображения объявлений
   var renderOfferFoto = function (fotosArr) {
     var oldFrames = document.querySelectorAll('.ad-form__photo');
     oldFrames.forEach(function (frame) {
       if (frame.querySelector('img') === null) {
-        console.log('Удаляем');
         frame.remove();
-      }
-      else {
-        console.log(frame.querySelector('img'), 'результат');
       }
     });
     var fragment = document.createDocumentFragment();
@@ -58,40 +59,30 @@
     });
     var offerFtots = fragment.querySelectorAll('img');
     offerFtots.forEach(function (elemnt, index) {
-      console.log(fotosArr[index], index, fotosArr);
       renderOneFoto(fotosArr[index], offerFtots[index]);
     });
     PHOTO_CONTAINER.appendChild(fragment);
   };
 
-
-  fileChooser[0].addEventListener('change', function () {
-    console.log(fileChooser[0]);
-    var files = fileChooser[0].files;
+  // устанавливаем слушателя на зарузчик аватарки
+  AVATAR_INPUT.addEventListener('change', function () {
+    var files = AVATAR_INPUT.files;
     files = [].slice.apply(files);
-    console.log(fileChooser.files);
-    console.log(files);
     if (verefyFoto(files)) {
-      console.log('Прошло');
       renderOneFoto(files[0], preview);
-    };
-
+    }
   });
 
-  fileChooser[1].addEventListener('change', function () {
-    console.log(fileChooser[1]);
-
-    var files = fileChooser[1].files;
+  // устанавливаем слушателя на загручик фоторафий объявления
+  IMAGES_INPUT.addEventListener('change', function () {
+    var files = IMAGES_INPUT.files;
     files = [].slice.apply(files);
-    console.log(fileChooser.files);
-    console.log(files);
     if (verefyFoto(files)) {
-      console.log('Прошло');
       renderOfferFoto(files);
-    };
-
+    }
   });
 
+  // возвращает начальное изображение аватарки, удаляет все загруженные фото объявления
   var resetFotos = function () {
     var frames = document.querySelectorAll('.ad-form__photo');
     frames.forEach(function (frame) {
@@ -104,6 +95,4 @@
   window.fotos = {
     resetFotos: resetFotos
   };
-
-
 })();
