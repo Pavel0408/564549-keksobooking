@@ -1,19 +1,17 @@
 'use strict';
 (function () {
   /**
-    * Модуль map
-    *
-    * Переводит карту и форму в активное состояние отрисовывает пины похожих объявлений на карте
-    * @param map.- утанавливает минимальную стоимость жилья
-    * @param form.placingOnMap - содержит функции для взамиодействия с картой
-    * @param map.placingOnMap.drawPinsOnMap - отрисовывает пины объявлений на карте
+    * Модуль map содержит функции для взамиодействия с картой
+    * @param window.map.drawPinsOnMap - отрисовывает пины объявлений на карте
+    * @param window.map.delAllPins - удаляет все пины с карты
+    * @param window.map.closeCard - удаляет карточку объявления
     * @param map.placingOnMap.makeMapActive -  переводит карту в активное состояние
+    * @param map.placingOnMap.sucsessHandler - обработчик успешной загрузки объявлений
     * @param map.placingOnMap.cardDraw - добавляет карточку объявления на страницу
     * @param map.placingOnMap.makeFormActive - переводит форму в активное стостояние
-    * @param map.placingOnMap.closeCard  - закрывает карточку объявления
     * @param map.placingOnMap.newCardDraw - создаёт карточку при клике по пину
     * @param map.placingOnMap.pinsListeners -  добавляет обработчик клика на все пины
-    *  @param map.makeFormDasabled - блокирует поля формы до перетаскивания пина
+    * @param map.makeFormDisabled - блокирует поля формы до перетаскивания пина
    */
 
   var MAP_PINS = document.querySelector('.map__pins');
@@ -25,6 +23,7 @@
   var MAIN_PIN_LEFT = MAP_PIN_MAIN.offsetLeft;
   var FIELDSETS = document.querySelectorAll('fieldset');
   var AD_FORM = document.querySelector('.ad-form');
+  var MAP_FORM = document.querySelector('.map__filters');
   var SUCCESS = document.querySelector('#success').content.querySelector('.success');
   var ERROR = document.querySelector('#error').content.querySelector('.error');
   var MAIN = document.querySelector('main');
@@ -41,7 +40,7 @@
         offer.id = index;
       });
       window.allOffers = allOffers;
-      drawPinsOnMap();
+      drawPinsOnMap(window.allOffers);
     };
 
     // обработчик ошибки закгрузки
@@ -86,23 +85,6 @@
       document.addEventListener('keydown', escPressHandler);
     };
 
-
-    // функция для отрисовки всех пинов
-    var drawPinsOnMap = function () {
-      var fragment = document.createDocumentFragment();
-      for (var j = 0, allOffersLength = window.allOffers.length; j < allOffersLength; j++) {
-        if (!window.allOffers[j].offer) {
-          continue;
-        }
-        fragment.appendChild(window.renderPin(window.allOffers[j]));
-        if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
-          break;
-        }
-      }
-
-      MAP_PINS.appendChild(fragment);
-    };
-
     // функция для перевода карты в активное состояние
     var makeMapActive = function () {
       MAP.classList.remove('map--faded');
@@ -111,16 +93,14 @@
 
     // функция для перевода карты и формы в нективное состояние
     var makeMapNotActive = function () {
-      var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      allOffersPins.forEach(function (pin) {
-        pin.remove();
-      });
+      delAllPins();
       MAP.classList.add('map--faded');
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
+      MAP_FORM.reset();
       closeCard();
       window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
-      makeFormDasabled();
+      makeFormDisabled();
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
       MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
@@ -144,17 +124,6 @@
     var makeFormActive = function () {
       for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
         FIELDSETS[i].removeAttribute('disabled');
-      }
-    };
-
-    // функция для закрытия карточки объявления
-    var closeCard = function () {
-      var activePin = document.querySelector('.map__pin--active');
-      if (MAP.querySelector('.map__card') !== null) {
-        MAP.removeChild(MAP.querySelector('.map__card'));
-        if (activePin !== null) {
-          activePin.classList.remove('map__pin--active');
-        }
       }
     };
 
@@ -194,8 +163,42 @@
     RESTE_FORM_BUTTON.addEventListener('click', makeMapNotActive);
   };
 
+  // функция для отрисовки всех пинов
+  var drawPinsOnMap = function (offerArr) {
+    var fragment = document.createDocumentFragment();
+    for (var j = 0, allOffersLength = offerArr.length; j < allOffersLength; j++) {
+      if (!window.allOffers[j].offer) {
+        continue;
+      }
+      fragment.appendChild(window.renderPin(offerArr[j]));
+      if (fragment.querySelectorAll('.map__pin').length >= window.constants.ADS_NUMBERS) {
+        break;
+      }
+    }
+
+    MAP_PINS.appendChild(fragment);
+  };
+
+  // функция для закрытия карточки объявления
+  var closeCard = function () {
+    var activePin = document.querySelector('.map__pin--active');
+    if (MAP.querySelector('.map__card') !== null) {
+      MAP.removeChild(MAP.querySelector('.map__card'));
+      if (activePin !== null) {
+        activePin.classList.remove('map__pin--active');
+      }
+    }
+  };
+
+  var delAllPins = function () {
+    var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    allOffersPins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
   // функция для перевода формы в неактивное состояние
-  var makeFormDasabled = function () {
+  var makeFormDisabled = function () {
     for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
       FIELDSETS[i].setAttribute('disabled', 'disabled');
     }
@@ -203,6 +206,12 @@
 
   window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
 
-  makeFormDasabled();
+  makeFormDisabled();
   MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
+
+  window.map = {
+    drawPinsOnMap: drawPinsOnMap,
+    delAllPins: delAllPins,
+    closeCard: closeCard
+  };
 })();
