@@ -8,8 +8,6 @@
    */
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FOTO_FRAME = document.querySelector('.ad-form__photo').cloneNode(true);
-  var IMAGES_INPUT = document.querySelector('#images');
-  var AVATAR_INPUT = document.querySelector('#avatar');
   var preview = document.querySelector('.ad-form-header__preview img');
   var previewSrc = preview.src;
   var PHOTO_CONTAINER = document.querySelector('.ad-form__photo-container');
@@ -66,22 +64,21 @@
   };
 
   // устанавливаем слушателя на зарузчик аватарки
-  AVATAR_INPUT.addEventListener('change', function () {
-    var files = AVATAR_INPUT.files;
+  var avatarInputHandler = function (input) {
+    var files = input.files;
     files = [].slice.apply(files);
     if (verefyFoto(files)) {
       renderOneFoto(files[0], preview);
     }
-  });
+  };
 
-  // устанавливаем слушателя на загручик фоторафий объявления
-  IMAGES_INPUT.addEventListener('change', function () {
-    var files = IMAGES_INPUT.files;
+  var fotosInputHandler = function (input) {
+    var files = input.files;
     files = [].slice.apply(files);
     if (verefyFoto(files)) {
       renderOfferFoto(files);
     }
-  });
+  };
 
   // возвращает начальное изображение аватарки, удаляет все загруженные фото объявления
   var resetFotos = function () {
@@ -94,6 +91,8 @@
   };
 
   window.fotos = {
-    resetFotos: resetFotos
+    resetFotos: resetFotos,
+    avatarInputHandler: avatarInputHandler,
+    fotosInputHandler: fotosInputHandler
   };
 })();

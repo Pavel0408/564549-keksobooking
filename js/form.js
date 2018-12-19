@@ -16,6 +16,8 @@
   var CAPACITY = document.querySelector('#capacity');
   var CAPACITY_OPTIONS = CAPACITY.querySelectorAll('option');
   var HOUSING_TYPE = document.querySelector('#type');
+  var IMAGES_INPUT = document.querySelector('#images');
+  var AVATAR_INPUT = document.querySelector('#avatar');
 
   // функция для установления минимальной стоимости жилья
   var setMinPrice = function () {
@@ -58,6 +60,12 @@
   TIMOUT.addEventListener('change', timeSynchro);
   HOUSING_TYPE.addEventListener('change', setMinPrice);
   ROOM_NUMBER.addEventListener('change', setMinGuests);
+  IMAGES_INPUT.addEventListener('change', function () {
+    window.fotos.fotosInputHandler(IMAGES_INPUT);
+  });
+  AVATAR_INPUT.addEventListener('change', function () {
+    window.fotos.avatarInputHandler(AVATAR_INPUT);
+  });
   window.form = {
     setMinPrice: setMinPrice,
     setMinGuests: setMinGuests
