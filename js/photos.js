@@ -1,9 +1,10 @@
 'use strict';
 (function () {
   /**
-    * Модуль avatar
+    * Модуль photos
     *
-    * Показывает в форме загруженную аватарку пользователя
+    * Показывает в форме загруженную аватарку пользователя и загруженные фотографии объявления
+    * @param window.photos.resetFotos - возвращае форме src аватарки пользователя на исходную, удаляет загруженные фото объявления
    */
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FOTO_FRAME = document.querySelector('.ad-form__photo').cloneNode(true);
