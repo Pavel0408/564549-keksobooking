@@ -94,6 +94,7 @@
     // функция для перевода карты и формы в нективное состояние
     var makeMapNotActive = function () {
       delAllPins();
+      window.fotos.resetFotos();
       MAP.classList.add('map--faded');
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
