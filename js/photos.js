@@ -4,6 +4,8 @@
     * Модуль photos
     *
     * Показывает в форме загруженную аватарку пользователя и загруженные фотографии объявления
+    * @param window.photos.avatarInputHandler - добавляет в форму аватарку пользователя
+    * @param window.photos.fotosInputHandler - добавляет в форму превью фотографий объявления
     * @param window.photos.resetFotos - возвращае форме src аватарки пользователя на исходную, удаляет загруженные фото объявления
    */
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -63,7 +65,7 @@
     PHOTO_CONTAINER.appendChild(fragment);
   };
 
-  // устанавливаем слушателя на зарузчик аватарки
+  // добавляет в форму аватарку пользователя
   var avatarInputHandler = function (input) {
     var files = input.files;
     files = [].slice.apply(files);
@@ -72,6 +74,7 @@
     }
   };
 
+  // добавляет в форму превью фотографий объявления
   var fotosInputHandler = function (input) {
     var files = input.files;
     files = [].slice.apply(files);
