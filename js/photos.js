@@ -4,10 +4,11 @@
     * Модуль photos
     *
     * Показывает в форме загруженную аватарку пользователя и загруженные фотографии объявления
-    * @param window.photos.avatarInputHandler - добавляет в форму аватарку пользователя
-    * @param window.photos.fotosInputHandler - добавляет в форму превью фотографий объявления
+    * @param window.photos.avatarChange - добавляет в форму аватарку пользователя
+    * @param window.photos.photosChange - добавляет в форму превью фотографий объявления
     * @param window.photos.resetFotos - возвращае форме src аватарки пользователя на исходную, удаляет загруженные фото объявления
    */
+
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var FOTO_FRAME = document.querySelector('.ad-form__photo').cloneNode(true);
   var preview = document.querySelector('.ad-form-header__preview img');
@@ -36,10 +37,12 @@
   // функция отрисовывает преданный файл в указанном img
   var renderOneFoto = function (file, img) {
     var reader = new FileReader();
-    reader.addEventListener('load', function () {
-      img.src = reader.result;
-    });
 
+    var readerLoadHandler = function () {
+      img.src = reader.result;
+    };
+
+    reader.addEventListener('load', readerLoadHandler);
     reader.readAsDataURL(file);
   };
 
@@ -75,7 +78,7 @@
   };
 
   // добавляет в форму превью фотографий объявления
-  var photosChange  = function (input) {
+  var photosChange = function (input) {
     var files = input.files;
     files = [].slice.apply(files);
     if (verefyFoto(files)) {

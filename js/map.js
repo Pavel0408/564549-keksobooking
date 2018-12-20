@@ -4,13 +4,13 @@
     * Модуль map содержит функции для взамиодействия с картой
     * @param window.map.drawPinsOnMap - отрисовывает пины объявлений на карте
     * @param window.map.delAllPins - удаляет все пины с карты
-    * @param window.map.closeCard - удаляет карточку объявления
+    * @param window.map.closeCardClickHandler - удаляет карточку объявления
     * @param map.placingOnMap.makeMapActive -  переводит карту в активное состояние
     * @param map.placingOnMap.sucsessHandler - обработчик успешной загрузки объявлений
     * @param map.placingOnMap.cardDraw - добавляет карточку объявления на страницу
     * @param map.placingOnMap.makeFormActive - переводит форму в активное стостояние
     * @param map.placingOnMap.newCardDraw - создаёт карточку при клике по пину
-    * @param map.placingOnMap.pinsListeners -  добавляет обработчик клика на все пины
+    * @param map.placingOnMap.pinClickHandler -  добавляет обработчик клика на все пины
     * @param map.makeFormDisabled - блокирует поля формы до перетаскивания пина
    */
 
@@ -67,7 +67,7 @@
     var formSucsessHandler = function () {
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
-      makeMapNotActive();
+      resetClickHandler();
       var successMessageClickHandler = function () {
         successMessage.remove();
         document.removeEventListener('click', successMessageClickHandler);
@@ -92,14 +92,14 @@
     };
 
     // функция для перевода карты и формы в нективное состояние
-    var makeMapNotActive = function () {
+    var resetClickHandler = function () {
       delAllPins();
       window.fotos.resetFotos();
       MAP.classList.add('map--faded');
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
       MAP_FORM.reset();
-      closeCard();
+      closeCardClickHandler();
       window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
       makeFormDisabled();
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
@@ -118,7 +118,7 @@
       fragment.appendChild(window.renderCard(window.allOffers[num]));
       map.insertBefore(fragment, map.querySelector('.map__filters-container'));
       closeCardButton = document.querySelector('.popup__close');
-      closeCardButton.addEventListener('click', closeCard);
+      closeCardButton.addEventListener('click', closeCardClickHandler);
     };
 
     // функция для перевода формы в активное стостояние
@@ -130,7 +130,7 @@
 
     // функция для отрисовки карточки при клике по пину
     var newCardDraw = function (num) {
-      closeCard();
+      closeCardClickHandler();
       cardDraw(num);
     };
 
@@ -164,7 +164,7 @@
     // добавляем обработчик клика на все пины
     MAP.addEventListener('click', pinClickHandler);
 
-    RESTE_FORM_BUTTON.addEventListener('click', makeMapNotActive);
+    RESTE_FORM_BUTTON.addEventListener('click', resetClickHandler);
   };
 
   // функция для отрисовки всех пинов
@@ -184,7 +184,7 @@
   };
 
   // функция для закрытия карточки объявления
-  var closeCard = function () {
+  var closeCardClickHandler = function () {
     var activePin = document.querySelector('.map__pin--active');
     if (MAP.querySelector('.map__card') !== null) {
       MAP.removeChild(MAP.querySelector('.map__card'));
@@ -194,6 +194,7 @@
     }
   };
 
+  // функция удаляющая все пины со страницы
   var delAllPins = function () {
     var allOffersPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     allOffersPins.forEach(function (pin) {
@@ -220,6 +221,6 @@
   window.map = {
     drawPinsOnMap: drawPinsOnMap,
     delAllPins: delAllPins,
-    closeCard: closeCard
+    closeCardClickHandler: closeCardClickHandler
   };
 })();

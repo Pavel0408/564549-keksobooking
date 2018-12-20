@@ -4,9 +4,9 @@
     * Модуль form
     *
     * Обеспечевает взаимодейсвие пльзователя с формой отправки объевления
-    * @param form.setMinPrice - уcтанавливает минимальную стоимость жилья
-    * @param form.timeSynchro - синхронизирует время заезда и выезда
-    * @param form.setMinGuests - установливает соответсвие гостей и комнат
+    * @param form.priceChangeHandler - уcтанавливает минимальную стоимость жилья
+    * @param window.form.guestsChangeHandler - синхронизирует время заезда и выезда
+    * @param window.form.guestsChangeHandler - установливает соответсвие гостей и комнат
    */
 
   var PRICE = document.querySelector('#price');

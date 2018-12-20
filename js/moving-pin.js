@@ -5,10 +5,10 @@
     *
     * Обеспечивает перемещения пина размещаемого объявления по карте
     * @param moving_pin.X_COORDS - границы перемещения пина по карте по горизонтале
-    *@param moving_pin.Y_COORDS - границы перемещения пина по карте по вертикале
+    * @param moving_pin.Y_COORDS - границы перемещения пина по карте по вертикале
     * @param moving_pin.isOnMap - удерживает пин внутри карты
-    * @param moving_pin.onMouseMove - перемещает пин при перемещинии мыши
-    * @param moving_pin.onMouseUp - останавливает перемещение пина, когда пользователь отпустит кнопку мыши
+    * @param moving_pin.mouseMoveHandler - перемещает пин при перемещинии мыши
+    * @param moving_pin.mouseUpHandler - останавливает перемещение пина, когда пользователь отпустит кнопку мыши
    */
 
   var MAIN_PIN = document.querySelector('.map__pin--main');
@@ -42,13 +42,12 @@
     return coordsNum;
   };
 
-  //  перемещаем пин
-  MAIN_PIN.addEventListener('mousedown', function (evt) {
+  //  функция прермещения пина
+  var mainPinMousedownHandler = function (evt) {
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
-
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
@@ -73,5 +72,7 @@
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-  });
+  };
+
+  MAIN_PIN.addEventListener('mousedown', mainPinMousedownHandler);
 })();

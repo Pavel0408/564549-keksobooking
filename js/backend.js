@@ -17,7 +17,7 @@
       if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
         successLoadHandler(xhr.response);
       } else {
-        errorLoadHandler('Похожие волшебники не загружены. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        errorLoadHandler('Информация не загружена. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     };
 
