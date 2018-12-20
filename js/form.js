@@ -35,10 +35,6 @@
 
   // функция для установления соответсвия гостей и комнат
   var setMinGuests = function () {
-    for (var n = 0, capacityOptionsLength = CAPACITY_OPTIONS.length; n < capacityOptionsLength; n++) {
-      CAPACITY_OPTIONS[n].removeAttribute('disabled');
-    }
-
     var isDisabledGuestsOption = function (num) {
       var rooms = +ROOM_NUMBER.value;
       var guests = +CAPACITY_OPTIONS[num].value;
@@ -47,13 +43,14 @@
         (guests === NO_GUESTS && rooms !== MAX_ROOMS);
     };
 
-    for (var i = capacityOptionsLength - 1; i >= 0; i--) {
-      if (isDisabledGuestsOption(i)) {
-        CAPACITY_OPTIONS[i].setAttribute('disabled', 'disabled');
+    CAPACITY_OPTIONS.forEach(function (option, index) {
+      option.removeAttribute('disabled');
+      if (isDisabledGuestsOption(index)) {
+        option.setAttribute('disabled', 'disabled');
       } else {
-        CAPACITY.value = CAPACITY_OPTIONS[i].value;
+        CAPACITY.value = CAPACITY_OPTIONS[index].value;
       }
-    }
+    });
   };
 
   setMinPrice();

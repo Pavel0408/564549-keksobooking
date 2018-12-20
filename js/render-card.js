@@ -32,11 +32,11 @@
     var featuresGenerate = function (arr) {
       var featuresClasses = mapCard.querySelectorAll('.popup__feature');
       var ul = mapCard.querySelector('ul');
-      for (var i = 0, featuresLength = window.constants.FEATURES.length; i < featuresLength; i++) {
-        if (arr.offer.features.indexOf(window.constants.FEATURES[i]) === -1) {
-          ul.removeChild(featuresClasses[i]);
+      window.constants.FEATURES.forEach(function (feature, index) {
+        if (arr.offer.features.indexOf(feature) === -1) {
+          ul.removeChild(featuresClasses[index]);
         }
-      }
+      });
       featuresClasses = mapCard.querySelectorAll('.popup__feature');
       if (featuresClasses.length === 0) {
         ul.remove();
@@ -48,11 +48,11 @@
       var photoBlock = mapCard.querySelector('.popup__photos');
       var photo = mapCard.querySelector('.popup__photo');
       photoBlock.removeChild(photo);
-      for (var i = 0, arrLength = arr.offer.photos.length; i < arrLength; i++) {
+      arr.offer.photos.forEach(function (onePhoto) {
         var tempPhoto = photo.cloneNode(true);
-        tempPhoto.src = arr.offer.photos[i];
+        tempPhoto.src = onePhoto;
         photoBlock.appendChild(tempPhoto);
-      }
+      });
       if (photoBlock.querySelectorAll('img').length === 0) {
         photoBlock.remove();
       }

@@ -123,9 +123,9 @@
 
     // функция для перевода формы в активное стостояние
     var makeFormActive = function () {
-      for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
-        FIELDSETS[i].removeAttribute('disabled');
-      }
+      FIELDSETS.forEach(function (fieldset) {
+        fieldset.removeAttribute('disabled');
+      });
     };
 
     // функция для отрисовки карточки при клике по пину
@@ -200,9 +200,9 @@
 
   // функция для перевода формы в неактивное состояние
   var makeFormDisabled = function () {
-    for (var i = 0, fieldsetLength = FIELDSETS.length; i < fieldsetLength; i++) {
-      FIELDSETS[i].setAttribute('disabled', 'disabled');
-    }
+    FIELDSETS.forEach(function (fieldset) {
+      fieldset.setAttribute('disabled', 'disabled');
+    });
   };
 
   window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
