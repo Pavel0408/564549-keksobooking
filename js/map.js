@@ -47,19 +47,19 @@
     var errorHandler = function () {
       var errorMessage = ERROR.cloneNode(true);
       MAIN.appendChild(errorMessage);
-      var closeErrorMessage = function () {
+      var errorMessageClickHandler = function () {
         errorMessage.remove();
       };
       var escPressErrHandler = function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {
           evt.preventDefault();
-          closeErrorMessage();
-          document.removeEventListener('click', closeErrorMessage);
+          errorMessageClickHandler();
+          document.removeEventListener('click', errorMessageClickHandler);
           document.removeEventListener('keydown', escPressErrHandler);
         }
       };
 
-      document.addEventListener('click', closeErrorMessage);
+      document.addEventListener('click', errorMessageClickHandler);
       document.addEventListener('keydown', escPressErrHandler);
     };
 
@@ -68,20 +68,20 @@
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
       makeMapNotActive();
-      var closeSuccessMessage = function () {
+      var successMessageClickHandler = function () {
         successMessage.remove();
-        document.removeEventListener('click', closeSuccessMessage);
+        document.removeEventListener('click', successMessageClickHandler);
         document.removeEventListener('keydown', escPressHandler);
       };
 
       var escPressHandler = function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {
           evt.preventDefault();
-          closeSuccessMessage();
+          successMessageClickHandler();
         }
       };
 
-      document.addEventListener('click', closeSuccessMessage);
+      document.addEventListener('click', successMessageClickHandler);
       document.addEventListener('keydown', escPressHandler);
     };
 
@@ -104,9 +104,9 @@
       makeFormDisabled();
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
-      MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
-      window.form.setMinPrice();
-      window.form.setMinGuests();
+      MAP_PIN_MAIN.addEventListener('mouseup', mainPinMousupHandler);
+      window.form.priceChangeHandler();
+      window.form.guestsChangeHandler();
     };
 
     // фунция для добавления карточки объявления на страницу
@@ -135,7 +135,7 @@
     };
 
     // функция добавляющая обработчик клика на все пины
-    var pinsListeners = function (evt) {
+    var pinClickHandler = function (evt) {
       var target = evt.target.closest('.map__pin');
       if (target) {
         var num = target.dataset.id;
@@ -147,19 +147,22 @@
       }
     };
 
+    // Обработчик загрузки формы
+    var formSubmitHandler = function (evt) {
+      window.backend.save(new FormData(AD_FORM), formSucsessHandler, errorHandler);
+      evt.preventDefault();
+    };
+
     // Загружаем похожие оъявления с сервера
     window.backend.load(sucsessHandler, errorHandler);
     makeMapActive();
     makeFormActive();
-    AD_FORM.addEventListener('submit', function (evt) {
-      window.backend.save(new FormData(AD_FORM), formSucsessHandler, errorHandler);
-      evt.preventDefault();
-    });
+    AD_FORM.addEventListener('submit', formSubmitHandler);
 
-    MAP_PIN_MAIN.removeEventListener('mouseup', placingOnMap);
+    MAP_PIN_MAIN.removeEventListener('mouseup', mainPinMousupHandler);
 
     // добавляем обработчик клика на все пины
-    MAP.addEventListener('click', pinsListeners);
+    MAP.addEventListener('click', pinClickHandler);
 
     RESTE_FORM_BUTTON.addEventListener('click', makeMapNotActive);
   };
@@ -207,8 +210,12 @@
 
   window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
 
+  var mainPinMousupHandler = function () {
+    placingOnMap();
+  };
+
   makeFormDisabled();
-  MAP_PIN_MAIN.addEventListener('mouseup', placingOnMap);
+  MAP_PIN_MAIN.addEventListener('mouseup', mainPinMousupHandler);
 
   window.map = {
     drawPinsOnMap: drawPinsOnMap,

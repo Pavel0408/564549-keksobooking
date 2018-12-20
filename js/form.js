@@ -22,19 +22,19 @@
   var MAX_ROOMS = 100;
 
   // функция для установления минимальной стоимости жилья
-  var setMinPrice = function () {
+  var priceChangeHandler = function () {
     var type = HOUSING_TYPE.value;
     PRICE.setAttribute('min', window.constants.MIN_PRICES[type]);
     PRICE.setAttribute('placeholder', window.constants.MIN_PRICES[type]);
   };
 
   // функции для синхронизации времени заезда и выезда
-  var timeSynchro = function (evt) {
+  var timeChangeHandler = function (evt) {
     TIMOUT.value = TIMEIN.value = evt.target.value;
   };
 
   // функция для установления соответсвия гостей и комнат
-  var setMinGuests = function () {
+  var guestsChangeHandler = function () {
     var isDisabledGuestsOption = function (num) {
       var rooms = +ROOM_NUMBER.value;
       var guests = +CAPACITY_OPTIONS[num].value;
@@ -53,20 +53,25 @@
     });
   };
 
-  setMinPrice();
-  setMinGuests();
-  TIMEIN.addEventListener('change', timeSynchro);
-  TIMOUT.addEventListener('change', timeSynchro);
-  HOUSING_TYPE.addEventListener('change', setMinPrice);
-  ROOM_NUMBER.addEventListener('change', setMinGuests);
-  IMAGES_INPUT.addEventListener('change', function () {
-    window.fotos.fotosInputHandler(IMAGES_INPUT);
-  });
-  AVATAR_INPUT.addEventListener('change', function () {
-    window.fotos.avatarInputHandler(AVATAR_INPUT);
-  });
+  var avatarInputHandler = function () {
+    window.fotos.avatarChange(AVATAR_INPUT);
+  };
+
+  var fotosInputHandler = function () {
+    window.fotos.photosChange(IMAGES_INPUT);
+  };
+
+  priceChangeHandler();
+  guestsChangeHandler();
+  TIMEIN.addEventListener('change', timeChangeHandler);
+  TIMOUT.addEventListener('change', timeChangeHandler);
+  HOUSING_TYPE.addEventListener('change', priceChangeHandler);
+  ROOM_NUMBER.addEventListener('change', guestsChangeHandler);
+  IMAGES_INPUT.addEventListener('change', fotosInputHandler);
+  AVATAR_INPUT.addEventListener('change', avatarInputHandler);
+
   window.form = {
-    setMinPrice: setMinPrice,
-    setMinGuests: setMinGuests
+    guestsChangeHandler: guestsChangeHandler,
+    priceChangeHandler: priceChangeHandler
   };
 })();

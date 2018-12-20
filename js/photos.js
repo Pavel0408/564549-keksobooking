@@ -66,7 +66,7 @@
   };
 
   // добавляет в форму аватарку пользователя
-  var avatarInputHandler = function (input) {
+  var avatarChange = function (input) {
     var files = input.files;
     files = [].slice.apply(files);
     if (verefyFoto(files)) {
@@ -75,7 +75,7 @@
   };
 
   // добавляет в форму превью фотографий объявления
-  var fotosInputHandler = function (input) {
+  var photosChange  = function (input) {
     var files = input.files;
     files = [].slice.apply(files);
     if (verefyFoto(files)) {
@@ -95,7 +95,7 @@
 
   window.fotos = {
     resetFotos: resetFotos,
-    avatarInputHandler: avatarInputHandler,
-    fotosInputHandler: fotosInputHandler
+    photosChange: photosChange,
+    avatarChange: avatarChange
   };
 })();

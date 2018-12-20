@@ -96,10 +96,12 @@
     window.map.drawPinsOnMap(window.allOffers.slice().filter(pinsFilter));
   };
 
+  var filterChangeHandler = function () {
+    window.debounce(updatePins);
+  };
+
   // устанавливаем слушатели на все элементы формы фильтрации объявлений
   document.querySelectorAll('.map__filter, .map__checkbox').forEach(function (filter) {
-    filter.addEventListener('change', function () {
-      window.debounce(updatePins);
-    });
+    filter.addEventListener('change', filterChangeHandler);
   });
 })();

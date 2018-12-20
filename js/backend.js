@@ -9,23 +9,31 @@
    */
 
   // функция для загрузки данных с сервера
-  var load = function (onLoad, onError) {
+  var load = function (successLoadHandler, errorLoadHandler) {
     var URL = window.constants.urls.load;
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', function () {
+
+    var xhrLoadHandler = function () {
       if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
-        onLoad(xhr.response);
+        successLoadHandler(xhr.response);
       } else {
-        onError('Похожие волшебники не загружены. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        errorLoadHandler('Похожие волшебники не загружены. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполнится за ' + xhr.timeout + 'мс');
-    });
+    };
+
+    var xhrErrorHandler = function () {
+      errorLoadHandler('Произошла ошибка соединения');
+    };
+
+    var xhrTimeoutHandler = function () {
+      errorLoadHandler('Запрос не успел выполнится за ' + xhr.timeout + 'мс');
+    };
+
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', xhrLoadHandler);
+    xhr.addEventListener('error', xhrErrorHandler);
+    xhr.addEventListener('timeout', xhrTimeoutHandler);
     xhr.timeout = window.constants.MAX_TIMEOUT;
     xhr.open('GET', URL);
     xhr.send();
@@ -33,23 +41,30 @@
 
   // функция для отправки формы
   var URL = window.constants.urls.save;
-  var save = function (data, onLoad, onError) {
+  var save = function (data, successSaveHandler, errorSaveHandler) {
     var xhr = new XMLHttpRequest();
+
+    var xhrSuccessLoadHandler = function () {
+      if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
+        successSaveHandler();
+      } else {
+        errorSaveHandler('Информация не отправлена. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    };
+
+    var xhrErrorLoadHandler = function () {
+      errorSaveHandler('Произошла ошибка соединения');
+    };
+
+    var xhrTimeoutHandler = function () {
+      errorSaveHandler('Данные не отправились за ' + xhr.timeout + 'мс');
+    };
+
     xhr.responseType = 'json';
 
-    xhr.addEventListener('load', function () {
-      if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
-        onLoad();
-      } else {
-        onError('Информация не отправлена. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Данные не отправились за ' + xhr.timeout + 'мс');
-    });
+    xhr.addEventListener('load', xhrSuccessLoadHandler);
+    xhr.addEventListener('error', xhrErrorLoadHandler);
+    xhr.addEventListener('timeout', xhrTimeoutHandler);
     xhr.timeout = window.constants.MAX_TIMEOUT;
     xhr.open('POST', URL);
     xhr.send(data);
