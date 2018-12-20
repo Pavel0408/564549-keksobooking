@@ -37,6 +37,7 @@
     var left = +MAIN_PIN.offsetLeft + Math.round(weight / 2);
     var top = +MAIN_PIN.offsetTop + Math.round(heigth);
     ADRESS_INPUT.value = '' + left + ', ' + top;
+    console.log('Сработало');
   };
 
   window.utilities = {

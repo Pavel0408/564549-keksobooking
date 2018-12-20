@@ -100,13 +100,13 @@
       AD_FORM.reset();
       MAP_FORM.reset();
       closeCardClickHandler();
-      window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
       makeFormDisabled();
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
       MAP_PIN_MAIN.addEventListener('mouseup', mainPinMousupHandler);
       window.form.priceChangeHandler();
       window.form.guestsChangeHandler();
+      window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
     };
 
     // фунция для добавления карточки объявления на страницу
@@ -165,6 +165,7 @@
     MAP.addEventListener('click', pinClickHandler);
 
     RESTE_FORM_BUTTON.addEventListener('click', resetClickHandler);
+    window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
   };
 
   // функция для отрисовки всех пинов
