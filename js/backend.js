@@ -13,6 +13,7 @@
     var URL = window.constants.urls.load;
     var xhr = new XMLHttpRequest();
 
+    // обработчики состояний запроса
     var xhrLoadHandler = function () {
       if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
         successLoadHandler(xhr.response);
@@ -44,6 +45,7 @@
   var save = function (data, successSaveHandler, errorSaveHandler) {
     var xhr = new XMLHttpRequest();
 
+    // обработчики состояний запроса
     var xhrSuccessLoadHandler = function () {
       if (xhr.status === window.constants.SUCCESS_SERVER_CODE) {
         successSaveHandler();
