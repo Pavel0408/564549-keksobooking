@@ -7,6 +7,8 @@
    * @param constants.TYPES  - типы жилья
    * @param constants.MIN_PRICES - минимальная стоимость здачи жиллья
    * @param constants.ADS_NUMBERS - количество меток похожих объявлений на карте
+   * @param constants.SUCCESS_SERVER_CODE - код успешного ответа сервера
+   * @param constants.MAX_TIMEOUT - максимальное время ожидания ответа сервера
    * @param constants.urls.load - адрес скоторого загружатся похожие объявления
    * @param constants.urls.save - адрес на который отрпраляются данные формы
    */
@@ -33,6 +35,8 @@
     FEATURES: FEATURES,
     MIN_PRICES: MIN_PRICES,
     ADS_NUMBERS: 5,
+    SUCCESS_SERVER_CODE: 200,
+    MAX_TIMEOUT: 10000,
     urls: {
       load: 'https://js.dump.academy/keksobooking/data',
       save: 'https://js.dump.academy/keksobooking'
