@@ -47,15 +47,20 @@
     var errorHandler = function () {
       var errorMessage = ERROR.cloneNode(true);
       MAIN.appendChild(errorMessage);
-      var errorMessageClickHandler = function () {
+      var errorMessageClose = function () {
         errorMessage.remove();
       };
+
+      var errorMessageClickHandler = function () {
+        errorMessageClose();
+        document.removeEventListener('click', errorMessageClickHandler);
+        document.removeEventListener('keydown', escPressErrHandler);
+      };
+
       var escPressErrHandler = function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {
           evt.preventDefault();
-          errorMessageClickHandler();
-          document.removeEventListener('click', errorMessageClickHandler);
-          document.removeEventListener('keydown', escPressErrHandler);
+          errorMessageClose();
         }
       };
 
@@ -68,16 +73,20 @@
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
       resetClickHandler();
-      var successMessageClickHandler = function () {
+      var successMessageClose = function () {
         successMessage.remove();
         document.removeEventListener('click', successMessageClickHandler);
         document.removeEventListener('keydown', escPressHandler);
       };
 
+      var successMessageClickHandler = function () {
+        successMessageClose();
+      };
+
       var escPressHandler = function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {
           evt.preventDefault();
-          successMessageClickHandler();
+          successMessageClose();
         }
       };
 
