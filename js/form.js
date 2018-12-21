@@ -3,10 +3,10 @@
   /**
     * Модуль form
     *
-    * Обеспечевает взаимодейсвие пльзователя с формой отправки объевления
-    * @param form.priceChangeHandler - уcтанавливает минимальную стоимость жилья
-    * @param window.form.guestsChangeHandler - синхронизирует время заезда и выезда
-    * @param window.form.guestsChangeHandler - установливает соответсвие гостей и комнат
+    * Обеспечевает взаимодейсвие пользователя с формой отправки объявления
+    * @param form.timeSynchro - синхронизирует время заезда и выезда
+    * @param window.form.setMinGuests - установливает соответсвие гостей и комнат
+    * @param window.form.setMinPrice - уcтанавливает минимальную стоимость жилья
    */
 
   var PRICE = document.querySelector('#price');
@@ -22,19 +22,19 @@
   var MAX_ROOMS = 100;
 
   // функция для установления минимальной стоимости жилья
-  var priceChangeHandler = function () {
+  var setMinPrice = function () {
     var type = HOUSING_TYPE.value;
     PRICE.setAttribute('min', window.constants.MIN_PRICES[type]);
     PRICE.setAttribute('placeholder', window.constants.MIN_PRICES[type]);
   };
 
   // функции для синхронизации времени заезда и выезда
-  var timeChangeHandler = function (evt) {
+  var timeSynchro = function (evt) {
     TIMOUT.value = TIMEIN.value = evt.target.value;
   };
 
   // функция для установления соответсвия гостей и комнат
-  var guestsChangeHandler = function () {
+  var setMinGuests = function () {
     var isDisabledGuestsOption = function (num) {
       var rooms = +ROOM_NUMBER.value;
       var guests = +CAPACITY_OPTIONS[num].value;
@@ -53,6 +53,7 @@
     });
   };
 
+  // создаём обработчики
   var avatarInputHandler = function () {
     window.fotos.avatarChange(AVATAR_INPUT);
   };
@@ -61,17 +62,33 @@
     window.fotos.photosChange(IMAGES_INPUT);
   };
 
-  priceChangeHandler();
-  guestsChangeHandler();
-  TIMEIN.addEventListener('change', timeChangeHandler);
-  TIMOUT.addEventListener('change', timeChangeHandler);
+  var priceChangeHandler = function () {
+    setMinPrice();
+  };
+
+  var guestsChangeHandler = function () {
+    setMinGuests();
+  };
+
+  var timeinChangeHandler = function (evt) {
+    timeSynchro(evt);
+  };
+
+  var timeoutChangeHandler = function (evt) {
+    timeSynchro(evt);
+  };
+
+  setMinPrice();
+  setMinGuests();
+  TIMEIN.addEventListener('change', timeinChangeHandler);
+  TIMOUT.addEventListener('change', timeoutChangeHandler);
   HOUSING_TYPE.addEventListener('change', priceChangeHandler);
   ROOM_NUMBER.addEventListener('change', guestsChangeHandler);
   IMAGES_INPUT.addEventListener('change', fotosInputHandler);
   AVATAR_INPUT.addEventListener('change', avatarInputHandler);
 
   window.form = {
-    guestsChangeHandler: guestsChangeHandler,
-    priceChangeHandler: priceChangeHandler
+    setMinPrice: setMinPrice,
+    setMinGuests: setMinGuests
   };
 })();

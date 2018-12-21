@@ -72,7 +72,7 @@
     var formSucsessHandler = function () {
       var successMessage = SUCCESS.cloneNode(true);
       MAIN.appendChild(successMessage);
-      resetClickHandler();
+      makeMapNotActiv();
       var successMessageClose = function () {
         successMessage.remove();
         document.removeEventListener('click', successMessageClickHandler);
@@ -101,7 +101,7 @@
     };
 
     // функция для перевода карты и формы в нективное состояние
-    var resetClickHandler = function () {
+    var makeMapNotActiv = function () {
       delAllPins();
       window.fotos.resetFotos();
       MAP.classList.add('map--faded');
@@ -113,8 +113,8 @@
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
       MAP_PIN_MAIN.addEventListener('mouseup', mainPinMousupHandler);
-      window.form.priceChangeHandler();
-      window.form.guestsChangeHandler();
+      window.form.setMinGuests();
+      window.form.setMinPrice();
       window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
     };
 
@@ -175,6 +175,10 @@
 
     // добавляем обработчик клика на все пины
     MAP.addEventListener('click', pinClickHandler);
+
+    var resetClickHandler = function () {
+      makeMapNotActiv();
+    };
 
     RESTE_FORM_BUTTON.addEventListener('click', resetClickHandler);
     window.utilities.getAdress(MAIN_PIN_WEIGHT, MAIN_PIN_HEIGHT / 2);
