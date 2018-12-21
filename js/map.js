@@ -4,7 +4,7 @@
     * Модуль map содержит функции для взамиодействия с картой
     * @param window.map.drawPinsOnMap - отрисовывает пины объявлений на карте
     * @param window.map.delAllPins - удаляет все пины с карты
-    * @param window.map.closeCardClickHandler - удаляет карточку объявления
+    * @param window.map.closeCard - удаляет карточку объявления
     * @param map.placingOnMap.makeMapActive -  переводит карту в активное состояние
     * @param map.placingOnMap.sucsessHandler - обработчик успешной загрузки объявлений
     * @param map.placingOnMap.cardDraw - добавляет карточку объявления на страницу
@@ -99,7 +99,7 @@
       AD_FORM.classList.add('ad-form--disabled');
       AD_FORM.reset();
       MAP_FORM.reset();
-      closeCardClickHandler();
+      closeCard();
       makeFormDisabled();
       MAP_PIN_MAIN.style.top = MAIN_PIN_TOP + 'px';
       MAP_PIN_MAIN.style.left = MAIN_PIN_LEFT + 'px';
@@ -114,11 +114,14 @@
       var fragment = document.createDocumentFragment();
       var map = document.querySelector('.map');
       var closeCardButton;
+      var closeCardButtonClickHandler = function () {
+        closeCard();
+      };
 
       fragment.appendChild(window.renderCard(window.allOffers[num]));
       map.insertBefore(fragment, map.querySelector('.map__filters-container'));
       closeCardButton = document.querySelector('.popup__close');
-      closeCardButton.addEventListener('click', closeCardClickHandler);
+      closeCardButton.addEventListener('click', closeCardButtonClickHandler);
     };
 
     // функция для перевода формы в активное стостояние
@@ -130,7 +133,7 @@
 
     // функция для отрисовки карточки при клике по пину
     var newCardDraw = function (num) {
-      closeCardClickHandler();
+      closeCard();
       cardDraw(num);
     };
 
@@ -185,7 +188,7 @@
   };
 
   // функция для закрытия карточки объявления
-  var closeCardClickHandler = function () {
+  var closeCard = function () {
     var activePin = document.querySelector('.map__pin--active');
     if (MAP.querySelector('.map__card') !== null) {
       MAP.removeChild(MAP.querySelector('.map__card'));
@@ -222,6 +225,6 @@
   window.map = {
     drawPinsOnMap: drawPinsOnMap,
     delAllPins: delAllPins,
-    closeCardClickHandler: closeCardClickHandler
+    closeCard: closeCard
   };
 })();

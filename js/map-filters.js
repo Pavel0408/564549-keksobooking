@@ -92,7 +92,7 @@
   // функция объновления пинов после применения фильтров
   var updatePins = function () {
     window.map.delAllPins();
-    window.map.closeCardClickHandler();
+    window.map.closeCard();
     window.map.drawPinsOnMap(window.allOffers.slice().filter(pinsFilter));
   };
 
